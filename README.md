@@ -46,7 +46,7 @@ An "admin" link appears in the header.
 ## Checks
 
 ```bash
-npx tsc --noEmit && npm run lint && npm run build
+npx next typegen && npx tsc --noEmit && npm run lint && npm run build
 ```
 
 The same checks run in GitHub Actions (`.github/workflows/ci.yml`).

@@ -21,6 +21,7 @@ jobs:
         with: { node-version: 22, cache: npm }
       - run: npm ci
       - run: npx prisma migrate deploy
+      - run: npx next typegen
       - run: npx tsc --noEmit
       - run: npm run lint
       - run: npm run build
