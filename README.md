@@ -7,7 +7,7 @@ A paper-and-stamps styled online shop for handmade ceramics and candles. Built w
 **Shop**
 - Home page with a polaroid-style hero and the latest pieces
 - Category filter, search and sorting; product pages with glaze and size pickers
-- Shopping bag kept in the browser; shipping is free over $100, otherwise $7
+- Shopping bag kept in the browser; prices are in Indian rupees; shipping is free over ₹1,499, otherwise ₹79
 - Sold-out products are marked and cannot be added to the bag
 
 **Accounts and orders**
@@ -23,10 +23,12 @@ A paper-and-stamps styled online shop for handmade ceramics and candles. Built w
 - About, Contact (messages are saved and shown in the admin), Careers (edit the openings list in `src/app/careers/page.tsx`) and Payment options
 
 **Payments**
-- Checkout offers "Pay on delivery" and, when `STORE_BANK_DETAILS` is set, "Bank transfer" (details are shown after ordering)
+- **Online payment with Razorpay** (UPI, cards, net banking, wallets, EMI) when the Razorpay keys are set. The server creates the order and amount, the customer pays in Razorpay's window, and the server verifies the payment signature before marking the order paid. A webhook (`/api/razorpay/webhook`) also marks orders paid if the customer closes the tab after paying.
+- "Pay on delivery" always, and "Bank transfer" when `STORE_BANK_DETAILS` is set (details are shown after ordering)
+- Unpaid online orders are cancelled and their stock returned if the payment window is closed
 - The payment method is saved on each order and shown in the admin
 
-**Not included:** online card payments (the page says "coming soon"). Stripe Checkout is the natural next step.
+**Not included:** refunds from the admin (refund in the Razorpay dashboard), invoices and emails.
 
 ## Run locally
 
@@ -42,6 +44,14 @@ npm run dev                   # http://localhost:3000
 
 ## Settings
 `STORE_EMAIL` is shown on the Contact and Careers pages. `STORE_BANK_DETAILS` lists your bank lines separated by `|`. See `.env.example`.
+
+## Turn on online payment
+1. Create a Razorpay account and copy the **test** keys from Dashboard > Account & Settings > API Keys.
+2. Put them in `.env` as `RAZORPAY_KEY_ID` and `RAZORPAY_KEY_SECRET`, then restart. A "UPI, cards, net banking, wallets, EMI" option appears at checkout.
+3. Add a webhook in the Razorpay dashboard pointing to `https://YOUR-SITE/api/razorpay/webhook` with events `payment.captured` and `order.paid`, and set its secret as `RAZORPAY_WEBHOOK_SECRET`.
+4. Test with Razorpay's test cards and `success@razorpay` as the test UPI id, then switch to live keys after your account is activated.
+
+Which methods appear (UPI, EMI, Pay Later, wallets) is controlled in the Razorpay dashboard.
 
 ## Make yourself an admin
 

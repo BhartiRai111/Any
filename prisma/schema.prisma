@@ -60,6 +60,9 @@ model Order {
   totalCents Int
   status     String      @default("PLACED")
   paymentMethod String   @default("COD")
+  paymentStatus String   @default("PENDING")
+  razorpayOrderId   String? @unique
+  razorpayPaymentId String?
   createdAt  DateTime    @default(now())
   items      OrderItem[]
 }

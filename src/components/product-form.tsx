@@ -26,8 +26,8 @@ export function ProductForm({ initial, categories }: { initial: Initial; categor
       </label>
       <label className={label}>Description<textarea name="description" required rows={4} defaultValue={v("description", initial.description)} className={input} /></label>
       <div className="grid grid-cols-3 gap-4">
-        <label className={label}>Price ($)<input name="price" required inputMode="decimal" defaultValue={v("price", initial.price)} className={input} /></label>
-        <label className={label}>Was ($, optional)<input name="comparePrice" inputMode="decimal" defaultValue={v("comparePrice", initial.comparePrice)} className={input} /></label>
+        <label className={label}>Price (₹)<input name="price" required inputMode="decimal" defaultValue={v("price", initial.price)} className={input} /></label>
+        <label className={label}>Was (₹, optional)<input name="comparePrice" inputMode="decimal" defaultValue={v("comparePrice", initial.comparePrice)} className={input} /></label>
         <label className={label}>Stock<input name="stock" required inputMode="numeric" defaultValue={v("stock", initial.stock)} className={input} /></label>
       </div>
       <label className={label}>Glaze colours (hex, comma separated)<input name="colors" required defaultValue={v("colors", initial.colors)} className={input} placeholder="#c9795a, #8a9a7b" /></label>

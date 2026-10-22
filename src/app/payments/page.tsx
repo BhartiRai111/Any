@@ -1,4 +1,5 @@
 import { PAYMENT_METHODS, bankLines } from "@/lib/store";
+import { razorpayEnabled } from "@/lib/razorpay";
 import { FREE_SHIPPING_OVER, SHIPPING_CENTS } from "@/lib/shipping";
 import { money } from "@/lib/format";
 
@@ -6,6 +7,7 @@ export const metadata = { title: "Payment options" };
 
 export default function Payments() {
   const bank = bankLines().length > 0;
+  const online = razorpayEnabled();
   return (
     <div className="mx-auto max-w-2xl space-y-6 py-6">
       <h1 className="font-serif text-5xl italic">Payment options</h1>
@@ -22,9 +24,13 @@ export default function Payments() {
               : "Not available at the moment."}
           </p>
         </li>
-        <li className="border border-dashed border-stone-500 p-4">
-          <p className="text-lg font-medium">Cards and wallets</p>
-          <p className="mt-1 text-sm">Online card payment is coming soon.</p>
+        <li className={`border p-4 ${online ? "border-stone-400 bg-white" : "border-dashed border-stone-500"}`}>
+          <p className="text-lg font-medium">UPI, cards, net banking, wallets and EMI</p>
+          <p className="mt-1 text-sm">
+            {online
+              ? "Pay securely online with Razorpay: any UPI app, credit and debit cards, net banking and wallets. EMI and Pay Later appear when your bank supports them. We never see or store your card details."
+              : "Online payment is coming soon."}
+          </p>
         </li>
       </ul>
       <p className="text-sm text-stone-700">

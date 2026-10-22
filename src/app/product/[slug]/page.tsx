@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { money } from "@/lib/format";
+import { FREE_SHIPPING_OVER } from "@/lib/shipping";
 import { ProductImage } from "@/components/product-image";
 import { AddToCart } from "@/components/add-to-cart";
 import { ProductCard } from "@/components/product-card";
@@ -40,7 +41,7 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
           </div>
           <ul className="mt-8 space-y-1 text-sm text-stone-600">
             <li>Ships within 3 working days</li>
-            <li>Free shipping over $100</li>
+            <li>Free shipping over {money(FREE_SHIPPING_OVER)}</li>
             <li>Arrives damaged? We remake it.</li>
           </ul>
         </div>
