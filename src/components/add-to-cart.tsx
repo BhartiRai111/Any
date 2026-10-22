@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { FiCheck } from "react-icons/fi";
 import { useCart } from "./cart";
 
 type P = { id: number; slug: string; name: string; tone: string; priceCents: number; colors: string[]; sizes: string[] };
@@ -50,7 +51,7 @@ export function AddToCart({ p }: { p: P }) {
       </div>
       <div className="flex gap-3">
         <button onClick={() => submit(false)} className="flex-1 rounded-sm bg-brand py-3 text-white hover:bg-brand-dark">
-          {added ? "Added ✓" : "Add to bag"}
+          {added ? <span className="inline-flex items-center justify-center gap-2"><FiCheck aria-hidden="true" /> Added</span> : "Add to bag"}
         </button>
         <button onClick={() => submit(true)} className="flex-1 border-2 border-brand text-brand py-3 hover:bg-stone-100">
           Buy now

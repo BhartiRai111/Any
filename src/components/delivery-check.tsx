@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { FiMapPin } from "react-icons/fi";
 import { checkDelivery } from "@/app/actions/address";
 
 export function DeliveryCheck() {
@@ -9,7 +10,7 @@ export function DeliveryCheck() {
   const [pending, start] = useTransition();
   return (
     <div className="mt-6 text-sm">
-      <p className="mb-1 font-medium">Check delivery</p>
+      <p className="mb-1 flex items-center gap-2 font-medium"><FiMapPin className="text-brand" aria-hidden="true" /> Check delivery</p>
       <form
         className="flex gap-2"
         onSubmit={(e) => {

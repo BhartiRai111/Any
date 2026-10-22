@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { FaStar } from "react-icons/fa";
 import { submitReview } from "@/app/actions/reviews";
 
 export function ReviewForm({ productId, slug, existing }: { productId: number; slug: string; existing?: { rating: number; body: string } }) {
@@ -12,7 +13,7 @@ export function ReviewForm({ productId, slug, existing }: { productId: number; s
         <legend className="sr-only">Rating</legend>
         {[1, 2, 3, 4, 5].map((n) => (
           <label key={n} className="flex items-center gap-1">
-            <input type="radio" name="rating" value={n} defaultChecked={existing?.rating === n} required /> {n}★
+            <input type="radio" name="rating" value={n} defaultChecked={existing?.rating === n} required /> {n}<FaStar className="inline text-amber-500" size={12} aria-hidden="true" />
           </label>
         ))}
       </fieldset>
