@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, DM_Mono } from "next/font/google";
+import Link from "next/link";
 import "./globals.css";
 import { CartProvider } from "@/components/cart";
 import { Header } from "@/components/header";
@@ -20,6 +21,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Header />
           <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">{children}</main>
           <footer className="border-t border-stone-300 py-8 text-center text-sm text-stone-600">
+            <nav className="mb-3 flex flex-wrap justify-center gap-x-6 gap-y-1">
+              <Link href="/about" className="hover:underline">about</Link>
+              <Link href="/contact" className="hover:underline">contact</Link>
+              <Link href="/careers" className="hover:underline">careers</Link>
+              <Link href="/payments" className="hover:underline">payment options</Link>
+            </nav>
             © {new Date().getFullYear()} Willow &amp; Clay. Demo store.
           </footer>
         </CartProvider>

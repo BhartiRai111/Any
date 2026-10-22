@@ -5,6 +5,7 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { currentUser } from "@/lib/session";
 import { shippingFor } from "@/lib/shipping";
+import { bankLines } from "@/lib/store";
 
 export type CheckoutState = { error?: string; values?: Record<string, string> } | undefined;
 
@@ -26,6 +27,7 @@ const shipSchema = z.object({
   city: z.string().trim().min(1, "City is required").max(100),
   postalCode: z.string().trim().min(2, "Postal code is required").max(20),
   country: z.string().trim().min(2, "Country is required").max(60),
+  paymentMethod: z.enum(["COD", "BANK_TRANSFER"], { message: "Choose a payment method" }),
 });
 
 export async function placeOrder(_: CheckoutState, form: FormData): Promise<CheckoutState> {
@@ -36,6 +38,8 @@ export async function placeOrder(_: CheckoutState, form: FormData): Promise<Chec
 async function tryPlace(form: FormData): Promise<{ error: string } | undefined> {
   const ship = shipSchema.safeParse(Object.fromEntries(form));
   if (!ship.success) return { error: ship.error.issues[0].message };
+
+  if (ship.data.paymentMethod === "BANK_TRANSFER" && bankLines().length === 0) return { error: "Bank transfer is not available right now." };
 
   let rawLines: unknown;
   try {
@@ -77,5 +81,5 @@ async function tryPlace(form: FormData): Promise<{ error: string } | undefined> 
   }).catch((e: Error) => e);
 
   if (order instanceof Error) return { error: order.message };
-  redirect(`/checkout/success?order=${order.id}`);
+  redirect(`/checkout/success?order=${order.id}&pay=${order.paymentMethod}`);
 }

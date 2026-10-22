@@ -59,6 +59,7 @@ model Order {
   country    String
   totalCents Int
   status     String      @default("PLACED")
+  paymentMethod String   @default("COD")
   createdAt  DateTime    @default(now())
   items      OrderItem[]
 }
@@ -74,4 +75,12 @@ model OrderItem {
   color      String
   quantity   Int
   unitCents  Int
+}
+
+model ContactMessage {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
 }

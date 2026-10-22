@@ -17,9 +17,16 @@ A paper-and-stamps styled online shop for handmade ceramics and candles. Built w
 
 **Admin** (`/admin`, admins only)
 - Add, edit and hide products (price, stock, glazes, sizes, photo link)
-- See all orders and set their status; cancelling an order returns its stock
+- See all orders, contact messages and set order status; cancelling an order returns its stock
 
-**Not included:** online card payments. Orders are saved as "pay on delivery". Stripe Checkout is the natural next step.
+**Info pages**
+- About, Contact (messages are saved and shown in the admin), Careers (edit the openings list in `src/app/careers/page.tsx`) and Payment options
+
+**Payments**
+- Checkout offers "Pay on delivery" and, when `STORE_BANK_DETAILS` is set, "Bank transfer" (details are shown after ordering)
+- The payment method is saved on each order and shown in the admin
+
+**Not included:** online card payments (the page says "coming soon"). Stripe Checkout is the natural next step.
 
 ## Run locally
 
@@ -32,6 +39,9 @@ npx prisma migrate dev        # create the tables
 npm run db:seed               # sample categories and products
 npm run dev                   # http://localhost:3000
 ```
+
+## Settings
+`STORE_EMAIL` is shown on the Contact and Careers pages. `STORE_BANK_DETAILS` lists your bank lines separated by `|`. See `.env.example`.
 
 ## Make yourself an admin
 

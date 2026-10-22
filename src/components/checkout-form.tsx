@@ -7,7 +7,7 @@ import { money } from "@/lib/format";
 import { shippingFor } from "@/lib/shipping";
 import { placeOrder } from "@/app/actions/order";
 
-export function CheckoutForm({ defaults }: { defaults: { name: string; email: string } }) {
+export function CheckoutForm({ defaults, bankAvailable }: { defaults: { name: string; email: string }; bankAvailable: boolean }) {
   const { lines, subtotalCents } = useCart();
   const [state, action, pending] = useActionState(placeOrder, undefined);
   const shipping = shippingFor(subtotalCents);
@@ -38,9 +38,18 @@ export function CheckoutForm({ defaults }: { defaults: { name: string; email: st
           <label className="block text-sm">Postal code<input name="postalCode" required defaultValue={v("postalCode")} className={input} autoComplete="postal-code" /></label>
         </div>
         <label className="block text-sm">Country<input name="country" required defaultValue={v("country", "United States")} className={input} autoComplete="country-name" /></label>
-        <p className="rounded-md bg-[#fffaf0] border border-dashed border-stone-500 p-3 text-sm">
-          Payment: this demo does not charge cards. Orders are recorded as “pay on delivery”.
-        </p>
+        <fieldset className="space-y-2 border border-stone-400 p-4">
+          <legend className="px-1 text-sm">Payment</legend>
+          <label className="flex items-center gap-2 text-sm">
+            <input type="radio" name="paymentMethod" value="COD" defaultChecked={v("paymentMethod", "COD") === "COD"} /> Pay on delivery
+          </label>
+          {bankAvailable && (
+            <label className="flex items-center gap-2 text-sm">
+              <input type="radio" name="paymentMethod" value="BANK_TRANSFER" defaultChecked={v("paymentMethod") === "BANK_TRANSFER"} /> Bank transfer (details shown after ordering)
+            </label>
+          )}
+          <p className="text-xs text-stone-600">Card payment is coming soon. See <Link href="/payments" className="underline">payment options</Link>.</p>
+        </fieldset>
       </div>
       <aside className="h-fit rounded-sm border border-stone-200 p-5 text-sm">
         <h2 className="text-lg font-medium">Order summary</h2>
