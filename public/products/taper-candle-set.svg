@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-label="taper candle set">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f0dfc0"/><stop offset="1" stop-color="#a35a3a"/></linearGradient>
+<radialGradient id="sh" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#000" stop-opacity=".28"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient></defs>
+<rect width="800" height="800" fill="url(#bg)"/>
+<ellipse cx="400" cy="640" rx="230" ry="26" fill="url(#sh)"/>
+<path d="M314 170c14 22 12 36 0 46c-12-10-14-24 0-46z" fill="#ffb347"/><rect x="300" y="220" width="28" height="380" rx="6" fill="#e3cfa8"/><path d="M384 210c14 22 12 36 0 46c-12-10-14-24 0-46z" fill="#ffb347"/><rect x="370" y="260" width="28" height="340" rx="6" fill="#e3cfa8"/><path d="M454 170c14 22 12 36 0 46c-12-10-14-24 0-46z" fill="#ffb347"/><rect x="440" y="220" width="28" height="380" rx="6" fill="#e3cfa8"/><path d="M524 210c14 22 12 36 0 46c-12-10-14-24 0-46z" fill="#ffb347"/><rect x="510" y="260" width="28" height="340" rx="6" fill="#e3cfa8"/>
+</svg>

@@ -45,6 +45,7 @@ async function main() {
       colors: p.colors,
       sizes: p.sizes,
       tone: p.tone,
+      imageUrl: `/products/${p.slug}.svg`,
       featured: p.featured ?? false,
       isNew: p.isNew ?? false,
       categoryId: cats[p.cat],

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-label="stoneware mug">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e4b184"/><stop offset="1" stop-color="#b4653a"/></linearGradient>
+<radialGradient id="sh" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#000" stop-opacity=".28"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient></defs>
+<rect width="800" height="800" fill="url(#bg)"/>
+<ellipse cx="400" cy="640" rx="230" ry="26" fill="url(#sh)"/>
+<path d="M520 300h40a70 70 0 0 1 0 140h-40" fill="none" stroke="#9c5e46" stroke-width="30" stroke-linecap="round"/><path d="M250 270h280v270a70 70 0 0 1-70 70H320a70 70 0 0 1-70-70z" fill="#c9795a"/><rect x="250" y="270" width="280" height="30" rx="8" fill="#9c5e46"/><path d="M285 330v200" stroke="#fff" stroke-opacity=".25" stroke-width="14" stroke-linecap="round"/>
+</svg>

@@ -25,7 +25,7 @@ const productSchema = z.object({
   colors: z.string().transform(list).refine((a) => a.length > 0 && a.every((c) => /^#[0-9a-fA-F]{6}$/.test(c)), "Glazes must be hex colours like #c9795a, separated by commas"),
   sizes: z.string().transform(list).refine((a) => a.length > 0, "Add at least one size"),
   tone: z.string().trim().max(200).refine((v) => v === "" || /^(linear|radial)-gradient\([#0-9a-zA-Z(),.% -]+\)$/.test(v) || /^#[0-9a-fA-F]{6}$/.test(v), "Placeholder must be a hex colour or a CSS gradient"),
-  imageUrl: z.string().trim().refine((v) => v === "" || /^https:\/\/\S+$/.test(v), "Image must be an https:// link").transform((v) => v || null),
+  imageUrl: z.string().trim().refine((v) => v === "" || /^https:\/\/\S+$/.test(v) || /^\/products\/[\w.-]+$/.test(v), "Image must be an https:// link or a /products/ file").transform((v) => v || null),
   stock: z.coerce.number().int().min(0).max(100000),
 });
 
