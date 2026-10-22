@@ -24,7 +24,7 @@ export default async function Orders() {
                 <span>Order #{o.id} · {o.createdAt.toLocaleDateString("en-US")}</span>
                 <span>{money(o.totalCents)}</span>
               </div>
-              <p className="text-stone-500">{o.status} · {PAYMENT_METHODS[o.paymentMethod as PaymentMethod] ?? o.paymentMethod}</p>
+              <p className="text-stone-500">{o.status} · {PAYMENT_METHODS[o.paymentMethod as PaymentMethod] ?? o.paymentMethod} · payment {o.paymentStatus.toLowerCase()}</p>
               <ul className="mt-3 space-y-1">
                 {o.items.map((i) => <li key={i.id}>{i.quantity} × {i.name} ({i.size})</li>)}
               </ul>
