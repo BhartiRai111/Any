@@ -1,4 +1,6 @@
 import Link from "next/link";
+import type { IconType } from "react-icons";
+import { FiChevronRight, FiHeadphones, FiMinus, FiPlus, FiRotateCcw, FiShield, FiTruck } from "react-icons/fi";
 import { db } from "@/lib/db";
 import { money } from "@/lib/format";
 import { getRatings } from "@/lib/ratings";
@@ -8,11 +10,11 @@ import { ProductImage } from "@/components/product-image";
 
 export const dynamic = "force-dynamic";
 
-const perks = [
-  { title: "Friendly support", text: "Write to us any day, we reply within 2 working days", icon: "M4 13a8 8 0 0 1 16 0v4a2 2 0 0 1-2 2h-1v-6h3M4 13v4a2 2 0 0 0 2 2h1v-6H4" },
-  { title: "Secure payments", text: "UPI, cards and net banking through Razorpay", icon: "M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4" },
-  { title: "Careful shipping", text: "Packed by hand and shipped within 3 working days", icon: "M3 7h11v9H3zM14 10h4l3 3v3h-7M7 19a1.5 1.5 0 1 0 0-.01M17 19a1.5 1.5 0 1 0 0-.01" },
-  { title: "Broken? We remake it", text: "If a piece arrives damaged, we make you a new one", icon: "M4 12a8 8 0 1 0 3-6.2M4 4v4h4" },
+const perks: { title: string; text: string; Icon: IconType }[] = [
+  { Icon: FiHeadphones, title: "Friendly support", text: "Write to us any day, we reply within 2 working days" },
+  { Icon: FiShield, title: "Secure payments", text: "UPI, cards and net banking through Razorpay" },
+  { Icon: FiTruck, title: "Careful shipping", text: "Packed by hand and shipped within 3 working days" },
+  { Icon: FiRotateCcw, title: "Broken? We remake it", text: "If a piece arrives damaged, we make you a new one" },
 ];
 
 const faqs = [
@@ -60,7 +62,7 @@ export default async function Home() {
       <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {perks.map((p) => (
           <div key={p.title} className="flex items-start gap-3">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-stone-800" aria-hidden="true"><path d={p.icon} /></svg>
+            <p.Icon size={32} className="shrink-0 text-stone-800" aria-hidden="true" />
             <div><p className="text-xs font-bold">{p.title}</p><p className="mt-0.5 text-xs text-stone-500">{p.text}</p></div>
           </div>
         ))}
@@ -68,7 +70,7 @@ export default async function Home() {
 
       {/* featured */}
       <section>
-        <div className="mb-5 flex items-end justify-between"><h2 className="text-2xl">Featured products</h2><Link href="/shop" className="text-xs font-semibold text-brand">View all →</Link></div>
+        <div className="mb-5 flex items-end justify-between"><h2 className="text-2xl">Featured products</h2><Link href="/shop" className="flex items-center text-xs font-semibold text-brand">View all <FiChevronRight aria-hidden="true" /></Link></div>
         <div className="polaroid-grid grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
           {featured.map((p) => <ProductCard key={p.id} p={p} rating={ratings.get(p.id)} />)}
         </div>
@@ -90,7 +92,7 @@ export default async function Home() {
 
       {/* new */}
       <section>
-        <div className="mb-5 flex items-end justify-between"><h2 className="text-2xl">New products</h2><Link href="/shop?sort=new" className="text-xs font-semibold text-brand">View all →</Link></div>
+        <div className="mb-5 flex items-end justify-between"><h2 className="text-2xl">New products</h2><Link href="/shop?sort=new" className="flex items-center text-xs font-semibold text-brand">View all <FiChevronRight aria-hidden="true" /></Link></div>
         <div className="polaroid-grid grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
           {newest.map((p) => <ProductCard key={p.id} p={p} rating={ratings.get(p.id)} />)}
         </div>
@@ -103,7 +105,7 @@ export default async function Home() {
           {faqs.map((f) => (
             <details key={f.q} className="group rounded-lg bg-stone-100 px-5 py-4 open:bg-brand-soft">
               <summary className="flex cursor-pointer list-none items-center gap-3 text-sm font-semibold">
-                <span className="h-3 w-3 shrink-0 rounded-full bg-brand group-open:bg-white group-open:ring-2 group-open:ring-brand" aria-hidden="true" />
+                <FiPlus className="shrink-0 text-brand group-open:hidden" aria-hidden="true" /><FiMinus className="hidden shrink-0 text-brand group-open:block" aria-hidden="true" />
                 {f.q}
               </summary>
               <p className="mt-3 pl-6 text-sm text-stone-600">{f.a}</p>

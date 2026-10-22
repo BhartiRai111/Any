@@ -1,6 +1,6 @@
 # Willow & Clay
 
-An online shop for handmade ceramics and candles with a clean marketplace layout (white and coral, search bar, category menu, featured and new product rows, FAQ and newsletter). Built with Next.js (App Router), TypeScript, Tailwind CSS, Prisma and PostgreSQL.
+An online shop for handmade ceramics and candles with a clean marketplace layout (white and coral, search bar, category menu, featured and new product rows, FAQ and newsletter). Built with Next.js (App Router), TypeScript, Tailwind CSS, React Icons, Prisma and PostgreSQL.
 
 ## Features
 

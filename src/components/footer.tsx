@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { storeEmail } from "@/lib/store";
+import { FaCcMastercard, FaCcVisa } from "react-icons/fa";
+import { FiMail, FiMessageCircle } from "react-icons/fi";
 import { NewsletterForm } from "./newsletter-form";
 
 export async function Footer() {
@@ -21,7 +23,8 @@ export async function Footer() {
           <div className="md:col-span-2">
             <p className="text-2xl font-bold text-white">Willow &amp; Clay<span className="text-brand">.</span></p>
             <p className="mt-3 max-w-xs text-stone-400">Handmade ceramics and candles, made in small batches in a one-room studio.</p>
-            <p className="mt-4 select-all">{storeEmail()}</p>
+            <p className="mt-4 flex items-center gap-2"><FiMail aria-hidden="true" /><span className="select-all">{storeEmail()}</span></p>
+            <p className="mt-2"><Link href="/contact" className="inline-flex items-center gap-2 hover:text-white"><FiMessageCircle aria-hidden="true" /> Send us a message</Link></p>
           </div>
           <div>
             <p className={h}>Links</p>
@@ -38,8 +41,10 @@ export async function Footer() {
         </div>
         <div className="mt-10 flex flex-col items-start justify-between gap-3 border-t border-stone-700 pt-6 text-xs text-stone-400 sm:flex-row sm:items-center">
           <p>© {new Date().getFullYear()} Willow &amp; Clay. Demo store.</p>
-          <p className="flex flex-wrap gap-2" aria-label="Accepted payments">
-            {["UPI", "Visa", "Mastercard", "RuPay", "Net banking", "Wallets", "EMI"].map((m) => <span key={m} className="rounded border border-stone-600 px-2 py-0.5 text-stone-300">{m}</span>)}
+          <p className="flex flex-wrap items-center gap-2" aria-label="Accepted payments">
+            <FaCcVisa size={30} className="text-stone-300" aria-label="Visa" />
+            <FaCcMastercard size={30} className="text-stone-300" aria-label="Mastercard" />
+            {["UPI", "RuPay", "Net banking", "Wallets", "EMI"].map((m) => <span key={m} className="rounded border border-stone-600 px-2 py-0.5 text-stone-300">{m}</span>)}
           </p>
         </div>
       </div>

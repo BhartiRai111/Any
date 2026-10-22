@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { FiHeart, FiMapPin, FiPackage } from "react-icons/fi";
 import { currentUser } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
@@ -14,9 +15,9 @@ export default async function Account() {
       <h1 className="font-serif text-5xl italic">Hello, {user.name.split(" ")[0]}</h1>
       <p className="text-stone-700">{user.email}</p>
       <div className="grid gap-4 sm:grid-cols-3">
-        <Link href="/orders" className={card}><p className="font-medium">My orders</p><p className="text-sm text-stone-600">Track and download invoices</p></Link>
-        <Link href="/account/addresses" className={card}><p className="font-medium">Addresses</p><p className="text-sm text-stone-600">Saved for faster checkout</p></Link>
-        <Link href="/wishlist" className={card}><p className="font-medium">Wishlist</p><p className="text-sm text-stone-600">Pieces you saved</p></Link>
+        <Link href="/orders" className={card}><FiPackage size={24} className="mb-2 text-brand" aria-hidden="true" /><p className="font-medium">My orders</p><p className="text-sm text-stone-600">Track and download invoices</p></Link>
+        <Link href="/account/addresses" className={card}><FiMapPin size={24} className="mb-2 text-brand" aria-hidden="true" /><p className="font-medium">Addresses</p><p className="text-sm text-stone-600">Saved for faster checkout</p></Link>
+        <Link href="/wishlist" className={card}><FiHeart size={24} className="mb-2 text-brand" aria-hidden="true" /><p className="font-medium">Wishlist</p><p className="text-sm text-stone-600">Pieces you saved</p></Link>
       </div>
     </div>
   );

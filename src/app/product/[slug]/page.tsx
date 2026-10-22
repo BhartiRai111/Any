@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { money } from "@/lib/format";
@@ -58,7 +59,7 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
             {p.stock === 0 ? <p className="stamp">Sold out</p> : <AddToCart p={p} />}
           </div>
           <form action={toggleWishlist.bind(null, p.id, p.slug)} className="mt-4">
-            <button className="text-sm underline" aria-pressed={Boolean(wished)}>{wished ? "♥ saved to wishlist (remove)" : "♡ save to wishlist"}</button>
+            <button className="flex items-center gap-2 text-sm hover:text-brand" aria-pressed={Boolean(wished)}>{wished ? <><FaHeart className="text-brand" aria-hidden="true" /> Saved to wishlist (remove)</> : <><FaRegHeart aria-hidden="true" /> Save to wishlist</>}</button>
           </form>
           <DeliveryCheck />
           <ul className="mt-8 space-y-1 text-sm text-stone-600">
