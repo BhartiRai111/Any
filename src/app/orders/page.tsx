@@ -18,7 +18,7 @@ export default async function Orders() {
       ) : (
         <ul className="mt-6 space-y-4">
           {orders.map((o) => (
-            <li key={o.id} className="rounded-xl border border-stone-200 p-5 text-sm">
+            <li key={o.id} className="rounded-sm border border-stone-200 p-5 text-sm">
               <div className="flex justify-between font-medium">
                 <span>Order #{o.id} · {o.createdAt.toLocaleDateString("en-US")}</span>
                 <span>{money(o.totalCents)}</span>

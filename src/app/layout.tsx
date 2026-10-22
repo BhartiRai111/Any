@@ -1,26 +1,26 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Cormorant_Garamond, DM_Mono } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/components/cart";
 import { Header } from "@/components/header";
 
-const sans = Inter({ variable: "--font-inter", subsets: ["latin"] });
-const serif = Playfair_Display({ variable: "--font-playfair", subsets: ["latin"] });
+const mono = DM_Mono({ variable: "--font-mono", subsets: ["latin"], weight: ["400", "500"] });
+const serif = Cormorant_Garamond({ variable: "--font-cormorant", subsets: ["latin"], weight: ["400", "600"], style: ["normal", "italic"] });
 
 export const metadata: Metadata = {
-  title: { default: "MAISON — Fashion boutique", template: "%s · MAISON" },
-  description: "Modern essentials for women and men: clothing, shoes and bags.",
+  title: { default: "Willow & Clay — Handmade ceramics and candles", template: "%s · Willow & Clay" },
+  description: "Small-batch ceramics, candles and home goods, made by hand in a one-room studio.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${sans.variable} ${serif.variable}`}>
-      <body className="flex min-h-screen flex-col bg-white text-stone-900">
+    <html lang="en" className={`${mono.variable} ${serif.variable}`}>
+      <body className="flex min-h-screen flex-col text-stone-900">
         <CartProvider>
           <Header />
           <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">{children}</main>
-          <footer className="border-t border-stone-200 py-8 text-center text-sm text-stone-500">
-            © {new Date().getFullYear()} MAISON. Demo store.
+          <footer className="border-t border-stone-300 py-8 text-center text-sm text-stone-600">
+            © {new Date().getFullYear()} Willow &amp; Clay. Demo store.
           </footer>
         </CartProvider>
       </body>

@@ -23,7 +23,7 @@ type CartCtx = {
 };
 
 const Ctx = createContext<CartCtx | null>(null);
-const KEY = "boutique-cart";
+const KEY = "willow-clay-cart";
 
 const same = (a: CartLine, id: number, size: string, color: string) =>
   a.productId === id && a.size === size && a.color === color;

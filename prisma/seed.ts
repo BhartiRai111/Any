@@ -3,33 +3,32 @@ import { PrismaClient } from "@prisma/client";
 const db = new PrismaClient();
 
 const categories = [
-  { slug: "women", name: "Women" },
-  { slug: "men", name: "Men" },
-  { slug: "shoes", name: "Shoes" },
-  { slug: "bags", name: "Bags" },
+  { slug: "mugs-cups", name: "Mugs & cups" },
+  { slug: "planters", name: "Planters" },
+  { slug: "candles", name: "Candles" },
+  { slug: "tableware", name: "Tableware" },
 ];
 
-const clothingSizes = ["XS", "S", "M", "L", "XL"];
-const shoeSizes = ["38", "39", "40", "41", "42", "43"];
+const mugSizes = ["Small 250 ml", "Large 400 ml"];
+const planterSizes = ["Small 10 cm", "Medium 15 cm", "Large 22 cm"];
+const candleSizes = ["Travel tin 120 g", "Jar 250 g"];
 const oneSize = ["One size"];
 
 const g = (a: string, b: string) => `linear-gradient(135deg, ${a}, ${b})`;
 
 const products = [
-  { slug: "linen-wrap-dress", name: "Linen Wrap Dress", cat: "women", price: 8900, was: 11900, colors: ["#c46a4a", "#2f4f3e", "#e8dcc8"], sizes: clothingSizes, tone: g("#f3d3c3", "#c46a4a"), featured: true, isNew: true, description: "A breathable wrap dress in washed European linen with a flattering tie waist and relaxed sleeves." },
-  { slug: "wool-blend-coat", name: "Wool Blend Coat", cat: "women", price: 19900, colors: ["#3b3b3b", "#a67c52"], sizes: clothingSizes, tone: g("#d9d4cc", "#6b5f52"), featured: true, description: "A tailored mid-length coat in a warm wool blend, fully lined with deep pockets." },
-  { slug: "ribbed-knit-top", name: "Ribbed Knit Top", cat: "women", price: 3900, colors: ["#f2ede4", "#1e293b", "#9c6b7a"], sizes: clothingSizes, tone: g("#efe6da", "#b9a58c"), isNew: true, description: "A soft stretch rib that layers under everything and holds its shape wash after wash." },
-  { slug: "high-rise-wide-jeans", name: "High-Rise Wide Jeans", cat: "women", price: 7500, colors: ["#3d5a80", "#111827"], sizes: clothingSizes, tone: g("#bcd0e6", "#3d5a80"), featured: true, description: "Rigid organic cotton denim with a high rise and a clean wide leg." },
-  { slug: "oxford-shirt", name: "Classic Oxford Shirt", cat: "men", price: 6500, colors: ["#ffffff", "#9ec1de"], sizes: clothingSizes, tone: g("#e6eef6", "#9ec1de"), featured: true, description: "A crisp button-down in brushed Oxford cotton with a regular fit." },
-  { slug: "merino-crew-sweater", name: "Merino Crew Sweater", cat: "men", price: 11900, was: 14900, colors: ["#27403a", "#8c8c8c", "#2b2d42"], sizes: clothingSizes, tone: g("#a8c3b6", "#27403a"), isNew: true, description: "Fine-gauge extra-fine merino that is warm without bulk. Machine washable." },
-  { slug: "tapered-chinos", name: "Tapered Chinos", cat: "men", price: 7900, colors: ["#b9a27c", "#1f2937"], sizes: clothingSizes, tone: g("#e2d6bd", "#b9a27c"), description: "Stretch cotton twill chinos with a tapered leg you can dress up or down." },
-  { slug: "quilted-bomber", name: "Quilted Bomber Jacket", cat: "men", price: 14900, colors: ["#1f2937", "#6b705c"], sizes: clothingSizes, tone: g("#9aa5b1", "#1f2937"), featured: true, description: "A light quilted bomber with a recycled fill, ribbed cuffs and a zip chest pocket." },
-  { slug: "leather-sneakers", name: "Everyday Leather Sneakers", cat: "shoes", price: 12900, colors: ["#ffffff", "#111827"], sizes: shoeSizes, tone: g("#f5f5f4", "#a8a29e"), featured: true, isNew: true, description: "Minimal low-top sneakers in full-grain leather with a cushioned insole." },
-  { slug: "suede-chelsea-boots", name: "Suede Chelsea Boots", cat: "shoes", price: 16900, colors: ["#8b5e3c", "#2b2b2b"], sizes: shoeSizes, tone: g("#d8b99a", "#8b5e3c"), description: "Soft suede Chelsea boots on a stacked heel with elastic side panels." },
-  { slug: "strappy-sandals", name: "Strappy Leather Sandals", cat: "shoes", price: 8900, was: 10900, colors: ["#d6a77a", "#111827"], sizes: shoeSizes, tone: g("#f1dcc4", "#d6a77a"), description: "Hand-stitched leather sandals with an adjustable ankle strap." },
-  { slug: "structured-tote", name: "Structured Tote", cat: "bags", price: 13900, colors: ["#7c4a2d", "#1f2937"], sizes: oneSize, tone: g("#d9b99b", "#7c4a2d"), featured: true, description: "A roomy structured tote with a zip top and an internal laptop sleeve." },
-  { slug: "mini-crossbody", name: "Mini Crossbody Bag", cat: "bags", price: 6900, colors: ["#b91c1c", "#111827", "#e8dcc8"], sizes: oneSize, tone: g("#f4c7c3", "#b91c1c"), isNew: true, description: "Pocket-sized crossbody with an adjustable strap and magnetic closure." },
-  { slug: "canvas-weekender", name: "Canvas Weekender", cat: "bags", price: 9900, colors: ["#6b705c", "#d4c5a9"], sizes: oneSize, tone: g("#d9dccb", "#6b705c"), description: "Waxed canvas duffle with leather handles and a separate shoe compartment." },
+  { slug: "stoneware-mug", name: "Stoneware Mug", cat: "mugs-cups", price: 2800, colors: ["#c9795a", "#8a9a7b", "#e3cfa8"], sizes: mugSizes, tone: g("#e4b184", "#b4653a"), featured: true, isNew: true, description: "Thrown on the wheel in speckled stoneware with a thick, comfortable handle. Dishwasher and microwave safe." },
+  { slug: "espresso-cup-pair", name: "Espresso Cup Pair", cat: "mugs-cups", price: 3400, colors: ["#2b2118", "#e3cfa8"], sizes: oneSize, tone: g("#d9c7a6", "#6b5238"), featured: true, description: "Two small cups with a matte outside and a glossy glaze inside. Holds 80 ml." },
+  { slug: "handleless-tumbler", name: "Handleless Tumbler", cat: "mugs-cups", price: 2200, was: 2800, colors: ["#8a9a7b", "#c9795a"], sizes: oneSize, tone: g("#cbd5bd", "#8a9a7b"), description: "A pinched-rim tumbler for water, wine or tea. Each one has its own fingerprints." },
+  { slug: "fern-planter", name: "Fern Planter", cat: "planters", price: 3600, colors: ["#8a9a7b", "#e3cfa8", "#c9795a"], sizes: planterSizes, tone: g("#b9c6a9", "#6f7f60"), featured: true, isNew: true, description: "A rounded planter with a drainage hole and a matching saucer. Fired to stoneware hardness for outdoor use." },
+  { slug: "hanging-pot", name: "Hanging Pot", cat: "planters", price: 4200, colors: ["#e3cfa8", "#2b2118"], sizes: ["Medium 15 cm"], tone: g("#eadcbf", "#b79d6e"), description: "Hung from three cotton cords. Comes with a hook and a drip saucer." },
+  { slug: "cactus-bowl", name: "Cactus Bowl", cat: "planters", price: 2400, colors: ["#c9795a", "#e3cfa8"], sizes: ["Small 10 cm", "Medium 15 cm"], tone: g("#e8c3a8", "#c9795a"), featured: true, description: "A shallow, wide bowl made for succulents. Unglazed outside, glazed inside." },
+  { slug: "beeswax-candle", name: "Beeswax Candle", cat: "candles", price: 2200, colors: ["#e8c26a", "#e3cfa8"], sizes: candleSizes, tone: g("#f3e1a6", "#d9a93f"), featured: true, description: "Poured by hand from local beeswax with a cotton wick. Burns for up to 40 hours and smells faintly of honey." },
+  { slug: "cedar-soy-candle", name: "Cedar & Soy Candle", cat: "candles", price: 2600, colors: ["#8a6d4a"], sizes: candleSizes, tone: g("#d6b997", "#8a6d4a"), isNew: true, description: "Soy wax scented with cedar and a little black pepper, poured into a reusable stoneware jar." },
+  { slug: "taper-candle-set", name: "Taper Candle Set", cat: "candles", price: 1800, was: 2200, colors: ["#e3cfa8", "#7a2e1b"], sizes: ["Set of 4"], tone: g("#f0dfc0", "#a35a3a"), description: "Four hand-dipped beeswax tapers, 25 cm tall." },
+  { slug: "dinner-plate", name: "Dinner Plate", cat: "tableware", price: 3200, colors: ["#e3cfa8", "#8a9a7b", "#2b2118"], sizes: ["27 cm"], tone: g("#efe3c9", "#b9a47a"), featured: true, description: "A wide plate with a slightly uneven rim. Food safe glaze, dishwasher safe." },
+  { slug: "serving-bowl", name: "Serving Bowl", cat: "tableware", price: 4800, colors: ["#c9795a", "#e3cfa8"], sizes: ["28 cm"], tone: g("#e6bfa3", "#a8553a"), description: "A deep bowl for salads and pasta. Holds about 2 litres." },
+  { slug: "butter-dish", name: "Butter Dish", cat: "tableware", price: 3000, colors: ["#8a9a7b", "#e3cfa8"], sizes: oneSize, tone: g("#d3dbc7", "#8a9a7b"), isNew: true, description: "A lidded dish with a ridge that keeps the lid from sliding. Fits a 250 g block." },
 ];
 
 async function main() {

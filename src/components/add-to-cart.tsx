@@ -28,11 +28,11 @@ export function AddToCart({ p }: { p: P }) {
   return (
     <div className="space-y-5">
       <div>
-        <p className="mb-2 text-sm font-medium">Colour</p>
+        <p className="mb-2 text-sm font-medium">Glaze</p>
         <div className="flex gap-2">
           {p.colors.map((c) => (
             <button key={c} type="button" aria-label={`Colour ${c}`} aria-pressed={c === color} onClick={() => setColor(c)}
-              className={`h-8 w-8 rounded-full border-2 ${c === color ? "border-stone-900" : "border-stone-200"}`} style={{ background: c }} />
+              className={`h-8 w-8 rounded-sm border-2 ${c === color ? "border-stone-900" : "border-stone-200"}`} style={{ background: c }} />
           ))}
         </div>
       </div>
@@ -49,11 +49,11 @@ export function AddToCart({ p }: { p: P }) {
         {error && <p role="alert" className="mt-2 text-sm text-rose-600">{error}</p>}
       </div>
       <div className="flex gap-3">
-        <button onClick={() => submit(false)} className="flex-1 rounded-full bg-stone-900 py-3 text-white hover:bg-stone-700">
-          {added ? "Added ✓" : "Add to bag"}
+        <button onClick={() => submit(false)} className="flex-1 rounded-sm bg-stone-900 py-3 text-white hover:bg-stone-700">
+          {added ? "added ✓" : "add to bag"}
         </button>
-        <button onClick={() => submit(true)} className="flex-1 rounded-full border border-stone-900 py-3 hover:bg-stone-100">
-          Buy now
+        <button onClick={() => submit(true)} className="flex-1 border-2 border-stone-900 py-3 hover:bg-stone-100">
+          buy now
         </button>
       </div>
     </div>

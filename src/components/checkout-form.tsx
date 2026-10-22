@@ -37,11 +37,11 @@ export function CheckoutForm({ defaults }: { defaults: { name: string; email: st
           <label className="block text-sm">Postal code<input name="postalCode" required className={input} autoComplete="postal-code" /></label>
         </div>
         <label className="block text-sm">Country<input name="country" required defaultValue="United States" className={input} autoComplete="country-name" /></label>
-        <p className="rounded-md bg-amber-50 p-3 text-sm text-amber-900">
+        <p className="rounded-md bg-[#fffaf0] border border-dashed border-stone-500 p-3 text-sm">
           Payment: this demo does not charge cards. Orders are recorded as “pay on delivery”.
         </p>
       </div>
-      <aside className="h-fit rounded-xl border border-stone-200 p-5 text-sm">
+      <aside className="h-fit rounded-sm border border-stone-200 p-5 text-sm">
         <h2 className="text-lg font-medium">Order summary</h2>
         <ul className="mt-3 space-y-2">
           {lines.map((l) => (
@@ -56,7 +56,7 @@ export function CheckoutForm({ defaults }: { defaults: { name: string; email: st
           <span>Total</span><span>{money(subtotalCents + shipping)}</span>
         </div>
         {state?.error && <p role="alert" className="mt-3 text-rose-600">{state.error}</p>}
-        <button disabled={pending} className="mt-5 w-full rounded-full bg-stone-900 py-3 text-white disabled:opacity-60">
+        <button disabled={pending} className="mt-5 w-full rounded-sm bg-stone-900 py-3 text-white disabled:opacity-60">
           {pending ? "Placing order…" : "Place order"}
         </button>
       </aside>
