@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  slug     String    @unique
+  name     String
+  products Product[]
+}
+
+model Product {
+  id          Int         @id @default(autoincrement())
+  slug        String      @unique
+  name        String
+  description String
+  priceCents  Int
+  comparePriceCents Int?
+  colors      String[]    // hex codes, first one is the default
+  sizes       String[]
+  tone        String      // CSS gradient used as placeholder artwork
+  featured    Boolean     @default(false)
+  isNew       Boolean     @default(false)
+  stock       Int         @default(100)
+  categoryId  Int
+  category    Category    @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime    @default(now())
+  items       OrderItem[]
+
+  @@index([categoryId])
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  name         String
+  passwordHash String
+  createdAt    DateTime @default(now())
+  orders       Order[]
+}
+
+model Order {
+  id         Int         @id @default(autoincrement())
+  userId     Int?
+  user       User?       @relation(fields: [userId], references: [id])
+  email      String
+  name       String
+  address    String
+  city       String
+  postalCode String
+  country    String
+  totalCents Int
+  status     String      @default("PLACED")
+  createdAt  DateTime    @default(now())
+  items      OrderItem[]
+}
+
+model OrderItem {
+  id         Int     @id @default(autoincrement())
+  orderId    Int
+  order      Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId  Int
+  product    Product @relation(fields: [productId], references: [id])
+  name       String
+  size       String
+  color      String
+  quantity   Int
+  unitCents  Int
+}
