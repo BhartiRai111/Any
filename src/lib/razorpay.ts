@@ -46,3 +46,20 @@ export async function createRazorpayOrder(amountPaise: number, receipt: string):
   if (!data.id) throw new Error("Razorpay returned no order id");
   return data.id;
 }
+
+/** Refunds a captured payment in full or in part. Amount is in paise. Returns the refund id. */
+export async function refundPayment(paymentId: string, amountPaise: number): Promise<string> {
+  const res = await fetch(`${apiBase()}/payments/${encodeURIComponent(paymentId)}/refund`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Basic ${Buffer.from(`${razorpayKeyId()}:${keySecret()}`).toString("base64")}`,
+    },
+    body: JSON.stringify({ amount: amountPaise }),
+    signal: AbortSignal.timeout(15000),
+  });
+  if (!res.ok) throw new Error(`Razorpay refund failed (${res.status})`);
+  const data = (await res.json()) as { id?: string };
+  if (!data.id) throw new Error("Razorpay returned no refund id");
+  return data.id;
+}

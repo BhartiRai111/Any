@@ -32,7 +32,7 @@ export function ProductForm({ initial, categories }: { initial: Initial; categor
       </div>
       <label className={label}>Glaze colours (hex, comma separated)<input name="colors" required defaultValue={v("colors", initial.colors)} className={input} placeholder="#c9795a, #8a9a7b" /></label>
       <label className={label}>Sizes (comma separated)<input name="sizes" required defaultValue={v("sizes", initial.sizes)} className={input} placeholder="Small 250 ml, Large 400 ml" /></label>
-      <label className={label}>Photo link (https, optional)<input name="imageUrl" defaultValue={v("imageUrl", initial.imageUrl)} className={input} /></label>
+      <label className={label}>Photo (https link or /products/file.jpg, optional)<input name="imageUrl" defaultValue={v("imageUrl", initial.imageUrl)} className={input} /></label>
       <label className={label}>Placeholder colour or gradient (used when there is no photo)<input name="tone" defaultValue={v("tone", initial.tone)} className={input} /></label>
       <div className="flex flex-wrap gap-6 text-sm">
         <label><input type="checkbox" name="active" defaultChecked={chk("active", initial.active)} /> Visible in shop</label>
@@ -40,7 +40,7 @@ export function ProductForm({ initial, categories }: { initial: Initial; categor
         <label><input type="checkbox" name="isNew" defaultChecked={chk("isNew", initial.isNew)} /> Mark as new</label>
       </div>
       {state?.error && <p role="alert" className="text-rose-600">{state.error}</p>}
-      <button disabled={pending} className="w-fit bg-stone-900 px-6 py-2.5 text-white disabled:opacity-60">{pending ? "Saving…" : "Save product"}</button>
+      <button disabled={pending} className="w-fit bg-brand px-6 py-2.5 text-white disabled:opacity-60">{pending ? "Saving…" : "Save product"}</button>
     </form>
   );
 }

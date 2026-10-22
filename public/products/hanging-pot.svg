@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-label="hanging pot">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eadcbf"/><stop offset="1" stop-color="#b79d6e"/></linearGradient>
+<radialGradient id="sh" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#000" stop-opacity=".28"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient></defs>
+<rect width="800" height="800" fill="url(#bg)"/>
+<ellipse cx="400" cy="640" rx="230" ry="26" fill="url(#sh)"/>
+<path d="M400 120L300 400M400 120l100 280M400 120v280" stroke="#6b5238" stroke-width="6" fill="none"/><g fill="#5f7a4f"><ellipse cx="340" cy="360" rx="28" ry="80" transform="rotate(-30 340 360)"/><ellipse cx="460" cy="360" rx="28" ry="80" transform="rotate(30 460 360)"/><ellipse cx="400" cy="340" rx="28" ry="90"/></g><path d="M280 410h240a120 120 0 0 1-240 0z" fill="#e3cfa8"/><rect x="270" y="396" width="260" height="28" rx="10" fill="#b1a183"/>
+</svg>

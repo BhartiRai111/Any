@@ -13,7 +13,7 @@ export default function CartPage() {
     return (
       <div className="py-20 text-center">
         <h1 className="font-serif text-3xl">Your bag is empty</h1>
-        <Link href="/shop" className="mt-6 inline-block rounded-sm bg-stone-900 px-8 py-3 text-white">Continue shopping</Link>
+        <Link href="/shop" className="mt-6 inline-block rounded-sm bg-brand px-8 py-3 text-white">Continue shopping</Link>
       </div>
     );
 
@@ -53,7 +53,7 @@ export default function CartPage() {
             <dt>Total</dt><dd>{money(subtotalCents + shipping)}</dd>
           </div>
         </dl>
-        <Link href="/checkout" className="mt-5 block rounded-sm bg-stone-900 py-3 text-center text-white hover:bg-stone-700">
+        <Link href="/checkout" className="mt-5 block rounded-sm bg-brand py-3 text-center text-white hover:bg-brand-dark">
           Checkout
         </Link>
       </aside>

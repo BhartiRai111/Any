@@ -8,6 +8,9 @@ import { shippingFor } from "@/lib/shipping";
 import { bankLines } from "@/lib/store";
 import { createRazorpayOrder, razorpayEnabled, razorpayKeyId, verifyCheckoutSignature } from "@/lib/razorpay";
 import { abandonUnpaid, markPaid } from "@/lib/payments";
+import { checkCoupon, releaseCouponUse, takeCouponUse } from "@/lib/coupons";
+import { checkPin } from "@/lib/delivery";
+import { sendOrderConfirmation } from "@/lib/emails";
 
 export type PayRequest = { orderId: number; razorpayOrderId: string; amount: number; keyId: string; name: string; email: string };
 export type CheckoutState = { error?: string; pay?: PayRequest; values?: Record<string, string> } | undefined;
@@ -42,6 +45,11 @@ async function tryPlace(form: FormData): Promise<{ error: string } | { pay: PayR
   const ship = shipSchema.safeParse(Object.fromEntries(form));
   if (!ship.success) return { error: ship.error.issues[0].message };
 
+  if (ship.data.country.trim().toLowerCase() === "india") {
+    const pin = checkPin(ship.data.postalCode);
+    if (!pin.ok) return { error: pin.message };
+  }
+
   if (ship.data.paymentMethod === "BANK_TRANSFER" && bankLines().length === 0) return { error: "Bank transfer is not available right now." };
 
   if (ship.data.paymentMethod === "ONLINE" && !razorpayEnabled()) return { error: "Online payment is not available right now." };
@@ -69,7 +77,14 @@ async function tryPlace(form: FormData): Promise<{ error: string } | { pay: PayR
     subtotal += p.priceCents * l.quantity;
     items.push({ productId: p.id, name: p.name, size: l.size, color: l.color, quantity: l.quantity, unitCents: p.priceCents });
   }
-  const total = subtotal + shippingFor(subtotal);
+  const code = String(form.get("coupon") ?? "").trim();
+  let coupon: Awaited<ReturnType<typeof checkCoupon>> | null = null;
+  if (code) {
+    coupon = await checkCoupon(code, subtotal);
+    if (!coupon.ok) return { error: coupon.error };
+  }
+  const discount = coupon?.ok ? coupon.discount : 0;
+  const total = subtotal - discount + shippingFor(subtotal - discount);
   const user = await currentUser();
 
   const order = await db.$transaction(async (tx) => {
@@ -80,8 +95,16 @@ async function tryPlace(form: FormData): Promise<{ error: string } | { pay: PayR
       });
       if (res.count === 0) throw new Error(`${i.name} just sold out`);
     }
+    if (coupon?.ok && !(await takeCouponUse(tx, coupon.coupon))) throw new Error("That code has been used up");
     return tx.order.create({
-      data: { ...ship.data, userId: user?.id ?? null, totalCents: total, items: { create: items } },
+      data: {
+        ...ship.data,
+        userId: user?.id ?? null,
+        totalCents: total,
+        discountCents: discount,
+        couponCode: coupon?.ok ? coupon.coupon.code : null,
+        items: { create: items },
+      },
     });
   }).catch((e: Error) => e);
 
@@ -97,11 +120,13 @@ async function tryPlace(form: FormData): Promise<{ error: string } | { pay: PayR
       await db.$transaction(async (tx) => {
         for (const i of items) await tx.product.update({ where: { id: i.productId }, data: { stock: { increment: i.quantity } } });
         await tx.order.update({ where: { id: order.id }, data: { status: "CANCELLED", paymentStatus: "FAILED" } });
+        await releaseCouponUse(tx, order.couponCode);
       });
       return { error: "We could not start the payment. Please try again or choose another method." };
     }
   }
 
+  void sendOrderConfirmation(order.id);
   redirect(`/checkout/success?order=${order.id}&pay=${order.paymentMethod}`);
 }
 
@@ -117,4 +142,17 @@ export async function confirmPayment(orderId: number, razorpayOrderId: string, p
 /** Called when the customer closes the payment window without paying. */
 export async function cancelUnpaidOrder(orderId: number, razorpayOrderId: string): Promise<void> {
   await abandonUnpaid(orderId, razorpayOrderId);
+}
+
+const previewLines = z.array(z.object({ productId: z.number().int().positive(), quantity: z.number().int().min(1).max(20) })).max(50);
+
+/** Shows the customer what a coupon would take off, using prices from the database. */
+export async function previewCoupon(code: string, lines: { productId: number; quantity: number }[]): Promise<{ ok: boolean; message: string; discount: number }> {
+  const parsed = previewLines.safeParse(lines);
+  if (!parsed.success || !code.trim()) return { ok: false, message: "Enter a code", discount: 0 };
+  const products = await db.product.findMany({ where: { id: { in: parsed.data.map((l) => l.productId) } } });
+  const price = new Map(products.map((p) => [p.id, p.priceCents]));
+  const subtotal = parsed.data.reduce((n, l) => n + (price.get(l.productId) ?? 0) * l.quantity, 0);
+  const r = await checkCoupon(code, subtotal);
+  return r.ok ? { ok: true, message: `Code ${r.coupon.code} applied`, discount: r.discount } : { ok: false, message: r.error, discount: 0 };
 }

@@ -32,7 +32,7 @@ export function AddToCart({ p }: { p: P }) {
         <div className="flex gap-2">
           {p.colors.map((c) => (
             <button key={c} type="button" aria-label={`Colour ${c}`} aria-pressed={c === color} onClick={() => setColor(c)}
-              className={`h-8 w-8 rounded-sm border-2 ${c === color ? "border-stone-900" : "border-stone-200"}`} style={{ background: c }} />
+              className={`h-8 w-8 rounded-sm border-2 ${c === color ? "border-brand" : "border-stone-200"}`} style={{ background: c }} />
           ))}
         </div>
       </div>
@@ -41,7 +41,7 @@ export function AddToCart({ p }: { p: P }) {
         <div className="flex flex-wrap gap-2">
           {p.sizes.map((s) => (
             <button key={s} type="button" aria-pressed={s === size} onClick={() => setSize(s)}
-              className={`min-w-12 rounded-md border px-3 py-2 text-sm ${s === size ? "border-stone-900 bg-stone-900 text-white" : "border-stone-300 hover:bg-stone-100"}`}>
+              className={`min-w-12 rounded-md border px-3 py-2 text-sm ${s === size ? "border-brand bg-brand text-white" : "border-stone-300 hover:bg-stone-100"}`}>
               {s}
             </button>
           ))}
@@ -49,11 +49,11 @@ export function AddToCart({ p }: { p: P }) {
         {error && <p role="alert" className="mt-2 text-sm text-rose-600">{error}</p>}
       </div>
       <div className="flex gap-3">
-        <button onClick={() => submit(false)} className="flex-1 rounded-sm bg-stone-900 py-3 text-white hover:bg-stone-700">
-          {added ? "added ✓" : "add to bag"}
+        <button onClick={() => submit(false)} className="flex-1 rounded-sm bg-brand py-3 text-white hover:bg-brand-dark">
+          {added ? "Added ✓" : "Add to bag"}
         </button>
-        <button onClick={() => submit(true)} className="flex-1 border-2 border-stone-900 py-3 hover:bg-stone-100">
-          buy now
+        <button onClick={() => submit(true)} className="flex-1 border-2 border-brand text-brand py-3 hover:bg-stone-100">
+          Buy now
         </button>
       </div>
     </div>

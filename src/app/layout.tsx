@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, DM_Mono } from "next/font/google";
-import Link from "next/link";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/components/cart";
 import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
 
-const mono = DM_Mono({ variable: "--font-mono", subsets: ["latin"], weight: ["400", "500"] });
-const serif = Cormorant_Garamond({ variable: "--font-cormorant", subsets: ["latin"], weight: ["400", "600"], style: ["normal", "italic"] });
+const montserrat = Montserrat({ variable: "--font-montserrat", subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 export const metadata: Metadata = {
   title: { default: "Willow & Clay — Handmade ceramics and candles", template: "%s · Willow & Clay" },
@@ -15,20 +14,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${mono.variable} ${serif.variable}`}>
+    <html lang="en" className={`${montserrat.variable}`}>
       <body className="flex min-h-screen flex-col text-stone-900">
         <CartProvider>
           <Header />
           <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">{children}</main>
-          <footer className="border-t border-stone-300 py-8 text-center text-sm text-stone-600">
-            <nav className="mb-3 flex flex-wrap justify-center gap-x-6 gap-y-1">
-              <Link href="/about" className="hover:underline">about</Link>
-              <Link href="/contact" className="hover:underline">contact</Link>
-              <Link href="/careers" className="hover:underline">careers</Link>
-              <Link href="/payments" className="hover:underline">payment options</Link>
-            </nav>
-            © {new Date().getFullYear()} Willow &amp; Clay. Demo store.
-          </footer>
+          <Footer />
         </CartProvider>
       </body>
     </html>
