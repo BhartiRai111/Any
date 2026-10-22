@@ -13,7 +13,7 @@ export default function CartPage() {
     return (
       <div className="py-20 text-center">
         <h1 className="font-serif text-3xl">Your bag is empty</h1>
-        <Link href="/shop" className="mt-6 inline-block rounded-full bg-stone-900 px-8 py-3 text-white">Continue shopping</Link>
+        <Link href="/shop" className="mt-6 inline-block rounded-sm bg-stone-900 px-8 py-3 text-white">Continue shopping</Link>
       </div>
     );
 
@@ -28,13 +28,13 @@ export default function CartPage() {
               <div className="flex-1 text-sm">
                 <Link href={`/product/${l.slug}`} className="font-medium hover:underline">{l.name}</Link>
                 <p className="mt-1 flex items-center gap-2 text-stone-600">
-                  <span className="h-3 w-3 rounded-full border border-stone-300" style={{ background: l.color }} /> Size {l.size}
+                  <span className="h-3 w-3 rounded-sm border border-stone-300" style={{ background: l.color }} /> Size {l.size}
                 </p>
                 <div className="mt-3 flex items-center gap-3">
-                  <button aria-label="Decrease quantity" className="h-8 w-8 rounded-full border border-stone-300"
+                  <button aria-label="Decrease quantity" className="h-8 w-8 rounded-sm border border-stone-300"
                     onClick={() => setQuantity(l.productId, l.size, l.color, l.quantity - 1)}>−</button>
                   <span aria-live="polite">{l.quantity}</span>
-                  <button aria-label="Increase quantity" className="h-8 w-8 rounded-full border border-stone-300"
+                  <button aria-label="Increase quantity" className="h-8 w-8 rounded-sm border border-stone-300"
                     onClick={() => setQuantity(l.productId, l.size, l.color, l.quantity + 1)}>+</button>
                   <button className="ml-4 underline" onClick={() => setQuantity(l.productId, l.size, l.color, 0)}>Remove</button>
                 </div>
@@ -44,7 +44,7 @@ export default function CartPage() {
           ))}
         </ul>
       </div>
-      <aside className="h-fit rounded-xl border border-stone-200 p-5 text-sm">
+      <aside className="h-fit rounded-sm border border-stone-200 p-5 text-sm">
         <h2 className="text-lg font-medium">Summary</h2>
         <dl className="mt-4 space-y-2">
           <div className="flex justify-between"><dt>Subtotal</dt><dd>{money(subtotalCents)}</dd></div>
@@ -53,7 +53,7 @@ export default function CartPage() {
             <dt>Total</dt><dd>{money(subtotalCents + shipping)}</dd>
           </div>
         </dl>
-        <Link href="/checkout" className="mt-5 block rounded-full bg-stone-900 py-3 text-center text-white hover:bg-stone-700">
+        <Link href="/checkout" className="mt-5 block rounded-sm bg-stone-900 py-3 text-center text-white hover:bg-stone-700">
           Checkout
         </Link>
       </aside>

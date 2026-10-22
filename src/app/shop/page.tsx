@@ -24,6 +24,7 @@ export default async function Shop({ searchParams }: PageProps<"/shop">) {
     db.category.findMany({ orderBy: { id: "asc" } }),
     db.product.findMany({
       where: {
+        active: true,
         ...(category ? { category: { slug: category } } : {}),
         ...(q ? { OR: [{ name: { contains: q, mode: "insensitive" } }, { description: { contains: q, mode: "insensitive" } }] } : {}),
       },
@@ -41,25 +42,25 @@ export default async function Shop({ searchParams }: PageProps<"/shop">) {
 
   return (
     <div>
-      <h1 className="font-serif text-4xl">{categories.find((c) => c.slug === category)?.name ?? "All products"}</h1>
+      <h1 className="font-serif text-5xl italic">{categories.find((c) => c.slug === category)?.name ?? "All pieces"}</h1>
 
       <form action="/shop" className="mt-6 flex flex-wrap items-center gap-3 text-sm">
         {category && <input type="hidden" name="category" value={category} />}
         <input name="q" defaultValue={q} placeholder="Search products…" aria-label="Search products"
-          className="w-56 rounded-full border border-stone-300 px-4 py-2" />
-        <select name="sort" defaultValue={sort} aria-label="Sort" className="rounded-full border border-stone-300 px-4 py-2">
+          className="w-56 rounded-sm border border-stone-300 px-4 py-2" />
+        <select name="sort" defaultValue={sort} aria-label="Sort" className="rounded-sm border border-stone-300 px-4 py-2">
           <option value="featured">Featured</option>
           <option value="new">Newest</option>
           <option value="price-asc">Price: low to high</option>
           <option value="price-desc">Price: high to low</option>
         </select>
-        <button className="rounded-full bg-stone-900 px-5 py-2 text-white">Apply</button>
+        <button className="rounded-sm bg-stone-900 px-5 py-2 text-white">Apply</button>
       </form>
 
       <div className="mt-4 flex flex-wrap gap-2 text-sm">
         {[{ slug: undefined, name: "All" }, ...categories].map((c) => (
           <Link key={c.name} href={href({ category: c.slug })}
-            className={`rounded-full border px-4 py-1.5 ${category === c.slug ? "border-stone-900 bg-stone-900 text-white" : "border-stone-300 hover:bg-stone-100"}`}>
+            className={`rounded-sm border px-4 py-1.5 ${category === c.slug ? "border-stone-900 bg-stone-900 text-white" : "border-stone-300 hover:bg-stone-100"}`}>
             {c.name}
           </Link>
         ))}
@@ -68,7 +69,7 @@ export default async function Shop({ searchParams }: PageProps<"/shop">) {
       {products.length === 0 ? (
         <p className="mt-12 text-stone-600">No products match your search.</p>
       ) : (
-        <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4">
+        <div className="mt-8 polaroid-grid grid grid-cols-2 gap-5 md:grid-cols-3">
           {products.map((p) => <ProductCard key={p.id} p={p} />)}
         </div>
       )}

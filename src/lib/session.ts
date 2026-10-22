@@ -36,9 +36,15 @@ export async function currentUser() {
     const { payload } = await jwtVerify(token, key());
     return await db.user.findUnique({
       where: { id: Number(payload.uid) },
-      select: { id: true, email: true, name: true },
+      select: { id: true, email: true, name: true, role: true },
     });
   } catch {
     return null;
   }
+}
+
+export async function requireAdmin() {
+  const user = await currentUser();
+  if (!user || user.role !== "ADMIN") throw new Error("Not authorized");
+  return user;
 }

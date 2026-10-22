@@ -6,7 +6,11 @@ import { db } from "@/lib/db";
 import { currentUser } from "@/lib/session";
 import { shippingFor } from "@/lib/shipping";
 
-export type CheckoutState = { error?: string } | undefined;
+export type CheckoutState = { error?: string; values?: Record<string, string> } | undefined;
+
+function fields(form: FormData) {
+  return Object.fromEntries([...form.entries()].filter(([k, v]) => k !== "lines" && typeof v === "string")) as Record<string, string>;
+}
 
 const lineSchema = z.object({
   productId: z.number().int().positive(),
@@ -25,6 +29,11 @@ const shipSchema = z.object({
 });
 
 export async function placeOrder(_: CheckoutState, form: FormData): Promise<CheckoutState> {
+  const result = await tryPlace(form);
+  return result && { ...result, values: fields(form) };
+}
+
+async function tryPlace(form: FormData): Promise<{ error: string } | undefined> {
   const ship = shipSchema.safeParse(Object.fromEntries(form));
   if (!ship.success) return { error: ship.error.issues[0].message };
 
@@ -45,7 +54,7 @@ export async function placeOrder(_: CheckoutState, form: FormData): Promise<Chec
   const items: { productId: number; name: string; size: string; color: string; quantity: number; unitCents: number }[] = [];
   for (const l of lines.data) {
     const p = byId.get(l.productId);
-    if (!p) return { error: "An item in your bag is no longer available." };
+    if (!p || !p.active) return { error: "An item in your bag is no longer available." };
     if (!p.sizes.includes(l.size) || !p.colors.includes(l.color)) return { error: `${p.name}: that size or colour is unavailable.` };
     if (l.quantity > p.stock) return { error: `${p.name}: only ${p.stock} left in stock.` };
     subtotal += p.priceCents * l.quantity;

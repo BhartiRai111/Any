@@ -6,28 +6,29 @@ import { logout } from "@/app/actions/auth";
 export async function Header() {
   const user = await currentUser();
   return (
-    <header className="sticky top-0 z-20 border-b border-stone-200 bg-white/90 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
-        <Link href="/" className="text-xl font-semibold tracking-[0.25em]">
-          MAISON
+    <header className="sticky top-0 z-20 border-b-2 border-stone-900/20 bg-[#d7c4a3]/95 backdrop-blur">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-3">
+        <Link href="/" className="font-serif text-3xl italic">
+          Willow &amp; Clay
         </Link>
-        <nav className="hidden gap-6 text-sm sm:flex">
-          <Link href="/shop?category=women" className="hover:underline">Women</Link>
-          <Link href="/shop?category=men" className="hover:underline">Men</Link>
-          <Link href="/shop?category=shoes" className="hover:underline">Shoes</Link>
-          <Link href="/shop?category=bags" className="hover:underline">Bags</Link>
-          <Link href="/shop?sort=new" className="hover:underline">New</Link>
+        <nav className="flex gap-5 text-sm lowercase">
+          <Link href="/shop" className="hover:underline">shop</Link>
+          <Link href="/shop?category=mugs-cups" className="hover:underline">mugs</Link>
+          <Link href="/shop?category=candles" className="hover:underline">candles</Link>
+          <Link href="/shop?category=planters" className="hover:underline">planters</Link>
+          <Link href="/about" className="hover:underline">our story</Link>
         </nav>
         <div className="flex items-center gap-4 text-sm">
           {user ? (
             <>
+              {user.role === "ADMIN" && <Link href="/admin" className="hover:underline">admin</Link>}
               <Link href="/orders" className="hover:underline">{user.name.split(" ")[0]}</Link>
               <form action={logout}>
-                <button className="hover:underline">Sign out</button>
+                <button className="hover:underline">sign out</button>
               </form>
             </>
           ) : (
-            <Link href="/login" className="hover:underline">Sign in</Link>
+            <Link href="/login" className="hover:underline">sign in</Link>
           )}
           <CartLink />
         </div>

@@ -20,9 +20,9 @@ export function AuthForm({
       <h1 className="text-2xl font-semibold">{mode === "login" ? "Sign in" : "Create account"}</h1>
       <input type="hidden" name="next" value={next} />
       {mode === "register" && (
-        <label className="block text-sm">Name<input name="name" required className={input} autoComplete="name" /></label>
+        <label className="block text-sm">Name<input name="name" required defaultValue={state?.values?.name} className={input} autoComplete="name" /></label>
       )}
-      <label className="block text-sm">Email<input name="email" type="email" required className={input} autoComplete="email" /></label>
+      <label className="block text-sm">Email<input name="email" type="email" required defaultValue={state?.values?.email} className={input} autoComplete="email" /></label>
       <label className="block text-sm">
         Password
         <input name="password" type="password" required minLength={mode === "register" ? 8 : undefined} className={input}

@@ -1,10 +1,58 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-serif: var(--font-playfair), Georgia, serif;
+  --font-sans: var(--font-mono), ui-monospace, monospace;
+  --font-serif: var(--font-cormorant), Georgia, serif;
+
+  /* Willow & Clay: stone scale remapped to warm kraft browns */
+  --color-stone-50: #fbf6ea;
+  --color-stone-100: #f1e8d4;
+  --color-stone-200: #e0d2b4;
+  --color-stone-300: #c9b48d;
+  --color-stone-400: #a38a62;
+  --color-stone-500: #7f6a4a;
+  --color-stone-600: #65533b;
+  --color-stone-700: #4a3c2b;
+  --color-stone-800: #372b1f;
+  --color-stone-900: #2b2118;
+  --color-stone-950: #1c150f;
+  --color-rose-600: #7a2e1b;
+  --color-white: #fffaf0;
 }
 
 body {
   font-family: var(--font-sans);
+  font-size: 14px;
+  color: #2b2118;
+  background-color: #d7c4a3;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+  background-size: 6px 6px;
+}
+
+h1, h2, h3, .font-serif { font-weight: 600; }
+
+/* polaroid-style photo frame used by product cards and product pages */
+.polaroid {
+  background: #fffaf0;
+  padding: 10px 10px 14px;
+  box-shadow: 0 6px 14px rgba(60, 40, 20, 0.28);
+  transition: transform 0.2s ease;
+}
+.polaroid-grid > *:nth-child(odd) .polaroid { transform: rotate(-1deg); }
+.polaroid-grid > *:nth-child(even) .polaroid { transform: rotate(1deg); }
+.polaroid-grid > a:hover .polaroid { transform: rotate(0) translateY(-3px); }
+
+.stamp {
+  display: inline-block;
+  border: 2px solid #7a2e1b;
+  color: #7a2e1b;
+  padding: 6px 14px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  transform: rotate(-2deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .polaroid { transition: none; }
 }
