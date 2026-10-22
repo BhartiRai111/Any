@@ -16,7 +16,8 @@ export async function Header() {
           <Link href="/shop?category=mugs-cups" className="hover:underline">mugs</Link>
           <Link href="/shop?category=candles" className="hover:underline">candles</Link>
           <Link href="/shop?category=planters" className="hover:underline">planters</Link>
-          <Link href="/about" className="hover:underline">our story</Link>
+          <Link href="/about" className="hover:underline">about</Link>
+          <Link href="/contact" className="hover:underline">contact</Link>
         </nav>
         <div className="flex items-center gap-4 text-sm">
           {user ? (

@@ -1,5 +1,6 @@
 import { db } from "@/lib/db";
 import { money } from "@/lib/format";
+import { PAYMENT_METHODS, type PaymentMethod } from "@/lib/store";
 import { setOrderStatus } from "@/app/actions/admin";
 
 export const dynamic = "force-dynamic";
@@ -17,7 +18,7 @@ export default async function Orders() {
           {orders.map((o) => (
             <li key={o.id} className="border border-stone-400 bg-white p-4 text-sm">
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <p className="font-medium">#{o.id} · {o.createdAt.toLocaleString("en-US")} · {money(o.totalCents)}</p>
+                <p className="font-medium">#{o.id} · {o.createdAt.toLocaleString("en-US")} · {money(o.totalCents)} · {PAYMENT_METHODS[o.paymentMethod as PaymentMethod] ?? o.paymentMethod}</p>
                 <form action={setOrderStatus.bind(null, o.id)} className="flex gap-2">
                   <select name="status" defaultValue={o.status} aria-label={`Status of order ${o.id}`} className="border border-stone-400 bg-white px-2 py-1">
                     {STATUSES.map((s) => <option key={s}>{s}</option>)}
