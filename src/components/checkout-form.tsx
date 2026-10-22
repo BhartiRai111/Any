@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useCart } from "./cart";
 import { money } from "@/lib/format";
 import { shippingFor } from "@/lib/shipping";
-import { placeOrder, confirmPayment, cancelUnpaidOrder, type PayRequest } from "@/app/actions/order";
+import { placeOrder, confirmPayment, cancelUnpaidOrder, previewCoupon, type PayRequest } from "@/app/actions/order";
 
 type RzpResponse = { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string };
 type RzpInstance = { open: () => void; on: (event: string, cb: (r: { error?: { description?: string } }) => void) => void };
@@ -27,13 +27,21 @@ function loadRazorpay(): Promise<boolean> {
   });
 }
 
-export function CheckoutForm({ defaults, bankAvailable, onlineAvailable }: { defaults: { name: string; email: string }; bankAvailable: boolean; onlineAvailable: boolean }) {
+type Saved = { id: number; label: string; name: string; address: string; city: string; postalCode: string; country: string };
+
+export function CheckoutForm({ defaults, bankAvailable, onlineAvailable, addresses }: { defaults: { name: string; email: string }; bankAvailable: boolean; onlineAvailable: boolean; addresses: Saved[] }) {
   const { lines, subtotalCents } = useCart();
   const [state, action, pending] = useActionState(placeOrder, undefined);
   const router = useRouter();
   const [payMessage, setPayMessage] = useState("");
-  const shipping = shippingFor(subtotalCents);
-  const v = (k: string, fallback = "") => state?.values?.[k] ?? fallback;
+  const [picked, setPicked] = useState<Saved | null>(addresses[0] ?? null);
+  const [code, setCode] = useState("");
+  const [coupon, setCoupon] = useState<{ ok: boolean; message: string; discount: number } | null>(null);
+  const [checking, setChecking] = useState(false);
+  const discount = coupon?.ok ? coupon.discount : 0;
+  const shipping = shippingFor(subtotalCents - discount);
+  // A saved address wins over what was typed before an error, so choosing one always fills the form.
+  const v = (k: string, fallback = "") => (picked && k in picked && k !== "id" ? String((picked as Record<string, unknown>)[k]) : state?.values?.[k] ?? fallback);
   const input = "w-full rounded-md border border-stone-300 px-3 py-2";
 
 
@@ -95,15 +103,23 @@ export function CheckoutForm({ defaults, bankAvailable, onlineAvailable }: { def
     <form action={action} className="grid gap-10 md:grid-cols-[1fr_20rem]">
       <div className="space-y-4">
         <h1 className="font-serif text-3xl">Checkout</h1>
+        {addresses.length > 0 && (
+          <label className="block text-sm">Saved address
+            <select className={input} value={picked?.id ?? ""} onChange={(e) => setPicked(addresses.find((a) => a.id === Number(e.target.value)) ?? null)}>
+              {addresses.map((a) => <option key={a.id} value={a.id}>{a.label}: {a.address}, {a.city}</option>)}
+              <option value="">Enter a new address</option>
+            </select>
+          </label>
+        )}
         <input type="hidden" name="lines" value={payload} />
-        <label className="block text-sm">Full name<input name="name" required defaultValue={v("name", defaults.name)} className={input} autoComplete="name" /></label>
+        <label className="block text-sm">Full name<input key={`name-${picked?.id}`} name="name" required defaultValue={v("name", defaults.name)} className={input} autoComplete="name" /></label>
         <label className="block text-sm">Email<input name="email" type="email" required defaultValue={v("email", defaults.email)} className={input} autoComplete="email" /></label>
-        <label className="block text-sm">Address<input name="address" required defaultValue={v("address")} className={input} autoComplete="street-address" /></label>
+        <label className="block text-sm">Address<input key={`address-${picked?.id}`} name="address" required defaultValue={v("address")} className={input} autoComplete="street-address" /></label>
         <div className="grid grid-cols-2 gap-4">
-          <label className="block text-sm">City<input name="city" required defaultValue={v("city")} className={input} autoComplete="address-level2" /></label>
-          <label className="block text-sm">Postal code<input name="postalCode" required defaultValue={v("postalCode")} className={input} autoComplete="postal-code" /></label>
+          <label className="block text-sm">City<input key={`city-${picked?.id}`} name="city" required defaultValue={v("city")} className={input} autoComplete="address-level2" /></label>
+          <label className="block text-sm">Postal code<input key={`postalCode-${picked?.id}`} name="postalCode" required defaultValue={v("postalCode")} className={input} autoComplete="postal-code" /></label>
         </div>
-        <label className="block text-sm">Country<input name="country" required defaultValue={v("country", "India")} className={input} autoComplete="country-name" /></label>
+        <label className="block text-sm">Country<input key={`country-${picked?.id}`} name="country" required defaultValue={v("country", "India")} className={input} autoComplete="country-name" /></label>
         <fieldset className="space-y-2 border border-stone-400 p-4">
           <legend className="px-1 text-sm">Payment</legend>
           {onlineAvailable && (
@@ -133,9 +149,18 @@ export function CheckoutForm({ defaults, bankAvailable, onlineAvailable }: { def
             </li>
           ))}
         </ul>
+        <div className="mt-3">
+          <div className="flex gap-2">
+            <input name="coupon" value={code} onChange={(e) => { setCode(e.target.value); setCoupon(null); }} placeholder="Discount code" aria-label="Discount code" className="w-full border border-stone-400 bg-white px-3 py-1.5 uppercase" />
+            <button type="button" disabled={checking || !code.trim()} className="border-2 border-stone-900 px-3 hover:bg-stone-900 hover:text-white disabled:opacity-50"
+              onClick={async () => { setChecking(true); setCoupon(await previewCoupon(code, lines.map((l) => ({ productId: l.productId, quantity: l.quantity })))); setChecking(false); }}>apply</button>
+          </div>
+          {coupon && <p role="status" className={`mt-1 text-xs ${coupon.ok ? "" : "text-rose-600"}`}>{coupon.message}</p>}
+        </div>
+        {discount > 0 && <div className="mt-3 flex justify-between"><span>Discount</span><span>-{money(discount)}</span></div>}
         <div className="mt-3 flex justify-between"><span>Shipping</span><span>{shipping ? money(shipping) : "Free"}</span></div>
         <div className="mt-3 flex justify-between border-t border-stone-200 pt-3 text-base font-semibold">
-          <span>Total</span><span>{money(subtotalCents + shipping)}</span>
+          <span>Total</span><span>{money(subtotalCents - discount + shipping)}</span>
         </div>
         {state?.error && <p role="alert" className="mt-3 text-rose-600">{state.error}</p>}
         {payMessage && <p role="status" className="mt-3">{payMessage}</p>}

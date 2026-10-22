@@ -23,7 +23,8 @@ export async function Header() {
           {user ? (
             <>
               {user.role === "ADMIN" && <Link href="/admin" className="hover:underline">admin</Link>}
-              <Link href="/orders" className="hover:underline">{user.name.split(" ")[0]}</Link>
+              <Link href="/wishlist" className="hover:underline">wishlist</Link>
+              <Link href="/account" className="hover:underline">{user.name.split(" ")[0]}</Link>
               <form action={logout}>
                 <button className="hover:underline">sign out</button>
               </form>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
+import { getRatings } from "@/lib/ratings";
 import { ProductCard } from "@/components/product-card";
 
 export const dynamic = "force-dynamic";
@@ -31,6 +32,8 @@ export default async function Shop({ searchParams }: PageProps<"/shop">) {
       orderBy: sorts[sort],
     }),
   ]);
+
+  const ratings = await getRatings(products.map((p) => p.id));
 
   const href = (over: Record<string, string | undefined>) => {
     const p = new URLSearchParams();
@@ -70,7 +73,7 @@ export default async function Shop({ searchParams }: PageProps<"/shop">) {
         <p className="mt-12 text-stone-600">No products match your search.</p>
       ) : (
         <div className="mt-8 polaroid-grid grid grid-cols-2 gap-5 md:grid-cols-3">
-          {products.map((p) => <ProductCard key={p.id} p={p} />)}
+          {products.map((p) => <ProductCard key={p.id} p={p} rating={ratings.get(p.id)} />)}
         </div>
       )}
     </div>

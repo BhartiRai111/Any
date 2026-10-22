@@ -15,69 +15,82 @@ model Category {
 }
 
 model Product {
-  id          Int         @id @default(autoincrement())
-  slug        String      @unique
-  name        String
-  description String
-  priceCents  Int
+  id                Int            @id @default(autoincrement())
+  slug              String         @unique
+  name              String
+  description       String
+  priceCents        Int
   comparePriceCents Int?
-  colors      String[]    // hex codes, first one is the default
-  sizes       String[]
-  tone        String      // CSS gradient used as placeholder artwork
-  featured    Boolean     @default(false)
-  isNew       Boolean     @default(false)
-  stock       Int         @default(100)
-  active      Boolean     @default(true)
-  imageUrl    String?
-  categoryId  Int
-  category    Category    @relation(fields: [categoryId], references: [id])
-  createdAt   DateTime    @default(now())
-  items       OrderItem[]
+  colors            String[] // hex codes, first one is the default
+  sizes             String[]
+  tone              String // CSS gradient used as placeholder artwork
+  featured          Boolean        @default(false)
+  isNew             Boolean        @default(false)
+  stock             Int            @default(100)
+  active            Boolean        @default(true)
+  imageUrl          String?
+  categoryId        Int
+  category          Category       @relation(fields: [categoryId], references: [id])
+  createdAt         DateTime       @default(now())
+  items             OrderItem[]
+  wishlist          WishlistItem[]
+  reviews           Review[]
 
   @@index([categoryId])
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  email        String   @unique
-  name         String
-  passwordHash String
-  role         String   @default("CUSTOMER")
-  createdAt    DateTime @default(now())
-  orders       Order[]
+  id             Int             @id @default(autoincrement())
+  email          String          @unique
+  name           String
+  passwordHash   String
+  role           String          @default("CUSTOMER")
+  createdAt      DateTime        @default(now())
+  orders         Order[]
+  passwordResets PasswordReset[]
+  wishlist       WishlistItem[]
+  reviews        Review[]
+  addresses      Address[]
 }
 
 model Order {
-  id         Int         @id @default(autoincrement())
-  userId     Int?
-  user       User?       @relation(fields: [userId], references: [id])
-  email      String
-  name       String
-  address    String
-  city       String
-  postalCode String
-  country    String
-  totalCents Int
-  status     String      @default("PLACED")
-  paymentMethod String   @default("COD")
-  paymentStatus String   @default("PENDING")
-  razorpayOrderId   String? @unique
+  id                Int         @id @default(autoincrement())
+  userId            Int?
+  user              User?       @relation(fields: [userId], references: [id])
+  email             String
+  name              String
+  address           String
+  city              String
+  postalCode        String
+  country           String
+  totalCents        Int
+  status            String      @default("PLACED")
+  paymentMethod     String      @default("COD")
+  paymentStatus     String      @default("PENDING")
+  razorpayOrderId   String?     @unique
   razorpayPaymentId String?
-  createdAt  DateTime    @default(now())
-  items      OrderItem[]
+  discountCents     Int         @default(0)
+  couponCode        String?
+  courier           String?
+  trackingNumber    String?
+  shippedAt         DateTime?
+  razorpayRefundId  String?
+  refundedAt        DateTime?
+  createdAt         DateTime    @default(now())
+  items             OrderItem[]
 }
 
 model OrderItem {
-  id         Int     @id @default(autoincrement())
-  orderId    Int
-  order      Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  productId  Int
-  product    Product @relation(fields: [productId], references: [id])
-  name       String
-  size       String
-  color      String
-  quantity   Int
-  unitCents  Int
+  id        Int     @id @default(autoincrement())
+  orderId   Int
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+  name      String
+  size      String
+  color     String
+  quantity  Int
+  unitCents Int
 }
 
 model ContactMessage {
@@ -86,4 +99,63 @@ model ContactMessage {
   email     String
   message   String
   createdAt DateTime @default(now())
+}
+
+model PasswordReset {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+}
+
+model WishlistItem {
+  userId    Int
+  productId Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([userId, productId])
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rating    Int
+  body      String
+  createdAt DateTime @default(now())
+
+  @@unique([productId, userId])
+}
+
+model Coupon {
+  id               Int       @id @default(autoincrement())
+  code             String    @unique
+  type             String // PERCENT or FIXED
+  value            Int // percent (1-100) or paise
+  minSubtotalCents Int       @default(0)
+  maxUses          Int?
+  usedCount        Int       @default(0)
+  expiresAt        DateTime?
+  active           Boolean   @default(true)
+  createdAt        DateTime  @default(now())
+}
+
+model Address {
+  id         Int     @id @default(autoincrement())
+  userId     Int
+  user       User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  label      String
+  name       String
+  address    String
+  city       String
+  postalCode String
+  country    String  @default("India")
+  isDefault  Boolean @default(false)
 }

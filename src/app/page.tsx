@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { ProductImage } from "@/components/product-image";
+import { getRatings } from "@/lib/ratings";
 import { ProductCard } from "@/components/product-card";
 
 export const dynamic = "force-dynamic";
@@ -10,6 +11,7 @@ export default async function Home() {
     db.product.findMany({ where: { featured: true, active: true }, orderBy: { id: "asc" }, take: 6 }),
     db.product.findFirst({ where: { featured: true, active: true }, orderBy: { id: "asc" } }),
   ]);
+  const ratings = await getRatings(featured.map((p) => p.id));
   return (
     <div className="space-y-14">
       <section className="grid items-center gap-10 py-6 md:grid-cols-2">
@@ -32,7 +34,7 @@ export default async function Home() {
       <section>
         <h2 className="mb-4 font-serif text-3xl italic">Fresh from the kiln</h2>
         <div className="polaroid-grid grid grid-cols-2 gap-5 md:grid-cols-3">
-          {featured.map((p) => <ProductCard key={p.id} p={p} />)}
+          {featured.map((p) => <ProductCard key={p.id} p={p} rating={ratings.get(p.id)} />)}
         </div>
         <Link href="/shop" className="mt-6 inline-block underline">see all pieces</Link>
       </section>

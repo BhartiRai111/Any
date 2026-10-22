@@ -56,3 +56,8 @@ h1, h2, h3, .font-serif { font-weight: 600; }
 @media (prefers-reduced-motion: reduce) {
   .polaroid { transition: none; }
 }
+
+@media print {
+  header, footer, .no-print { display: none !important; }
+  body { background: #fff !important; }
+}

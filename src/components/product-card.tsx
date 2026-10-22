@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { money } from "@/lib/format";
 import { ProductImage } from "./product-image";
+import { Stars } from "./stars";
 
 type P = {
   slug: string;
@@ -14,7 +15,7 @@ type P = {
   colors: string[];
 };
 
-export function ProductCard({ p }: { p: P }) {
+export function ProductCard({ p, rating }: { p: P; rating?: { avg: number; count: number } }) {
   return (
     <Link href={`/product/${p.slug}`} className="block">
       <div className="polaroid">
@@ -30,6 +31,7 @@ export function ProductCard({ p }: { p: P }) {
         <div className="mt-3 flex items-start justify-between gap-2 text-[13px]">
           <div>
             <p className="font-medium">{p.name}</p>
+            {rating && rating.count > 0 && <Stars value={rating.avg} count={rating.count} />}
             <div className="mt-1 flex gap-1">
               {p.colors.map((c) => (
                 <span key={c} className="h-3 w-3 rounded-full border border-stone-400" style={{ background: c }} />
