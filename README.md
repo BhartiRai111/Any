@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Willow & Clay
 
-## Getting Started
+A paper-and-stamps styled online shop for handmade ceramics and candles. Built with Next.js (App Router), TypeScript, Tailwind CSS, Prisma and PostgreSQL.
 
-First, run the development server:
+## Features
+
+**Shop**
+- Home page with a polaroid-style hero and the latest pieces
+- Category filter, search and sorting; product pages with glaze and size pickers
+- Shopping bag kept in the browser; shipping is free over $100, otherwise $7
+- Sold-out products are marked and cannot be added to the bag
+
+**Accounts and orders**
+- Email/password accounts (bcrypt, signed httpOnly session cookie)
+- Checkout re-prices everything from the database and reduces stock in one transaction
+- Order history for signed-in users
+
+**Admin** (`/admin`, admins only)
+- Add, edit and hide products (price, stock, glazes, sizes, photo link)
+- See all orders and set their status; cancelling an order returns its stock
+
+**Not included:** online card payments. Orders are saved as "pay on delivery". Stripe Checkout is the natural next step.
+
+## Run locally
+
+Requires Node 22+ and a PostgreSQL database.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.example .env          # set DATABASE_URL and a 32+ character SESSION_SECRET
+npm install
+npx prisma migrate dev        # create the tables
+npm run db:seed               # sample categories and products
+npm run dev                   # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Make yourself an admin
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Register in the shop, then run:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run make-admin -- you@example.com
+```
 
-## Learn More
+An "admin" link appears in the header.
 
-To learn more about Next.js, take a look at the following resources:
+## Checks
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npx tsc --noEmit && npm run lint && npm run build
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The same checks run in GitHub Actions (`.github/workflows/ci.yml`).
 
-## Deploy on Vercel
+## Going live
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Set `DATABASE_URL` and a long random `SESSION_SECRET`, run `npx prisma migrate deploy`, then `npm run build && npm start`. Product photos are plain https links, so the images can be hosted anywhere.

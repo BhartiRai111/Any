@@ -21,6 +21,7 @@ export async function Header() {
         <div className="flex items-center gap-4 text-sm">
           {user ? (
             <>
+              {user.role === "ADMIN" && <Link href="/admin" className="hover:underline">admin</Link>}
               <Link href="/orders" className="hover:underline">{user.name.split(" ")[0]}</Link>
               <form action={logout}>
                 <button className="hover:underline">sign out</button>

@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
+import { ProductImage } from "@/components/product-image";
 import { ProductCard } from "@/components/product-card";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const [featured, hero] = await Promise.all([
-    db.product.findMany({ where: { featured: true }, orderBy: { id: "asc" }, take: 6 }),
-    db.product.findUnique({ where: { slug: "stoneware-mug" } }),
+    db.product.findMany({ where: { featured: true, active: true }, orderBy: { id: "asc" }, take: 6 }),
+    db.product.findFirst({ where: { featured: true, active: true }, orderBy: { id: "asc" } }),
   ]);
   return (
     <div className="space-y-14">
@@ -23,7 +24,7 @@ export default async function Home() {
           </div>
         </div>
         <div className="polaroid mx-auto w-full max-w-sm rotate-[2.5deg] !pb-10">
-          <div className="aspect-square" style={{ background: hero?.tone ?? "linear-gradient(135deg,#b4653a,#e4b184)" }} />
+          <ProductImage tone={hero?.tone ?? "linear-gradient(135deg,#b4653a,#e4b184)"} imageUrl={hero?.imageUrl ?? null} alt={hero?.name ?? "Handmade ceramics"} />
           <p className="mt-3 text-center text-xs">made by hand</p>
         </div>
       </section>

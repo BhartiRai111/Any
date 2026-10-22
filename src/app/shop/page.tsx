@@ -24,6 +24,7 @@ export default async function Shop({ searchParams }: PageProps<"/shop">) {
     db.category.findMany({ orderBy: { id: "asc" } }),
     db.product.findMany({
       where: {
+        active: true,
         ...(category ? { category: { slug: category } } : {}),
         ...(q ? { OR: [{ name: { contains: q, mode: "insensitive" } }, { description: { contains: q, mode: "insensitive" } }] } : {}),
       },

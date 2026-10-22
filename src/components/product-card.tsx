@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { money } from "@/lib/format";
+import { ProductImage } from "./product-image";
 
 type P = {
   slug: string;
@@ -7,6 +8,8 @@ type P = {
   priceCents: number;
   comparePriceCents: number | null;
   tone: string;
+  imageUrl: string | null;
+  stock: number;
   isNew: boolean;
   colors: string[];
 };
@@ -15,8 +18,11 @@ export function ProductCard({ p }: { p: P }) {
   return (
     <Link href={`/product/${p.slug}`} className="block">
       <div className="polaroid">
-        <div className="relative aspect-square" style={{ background: p.tone }}>
-          {p.isNew && <span className="stamp absolute left-2 top-2 bg-[#fffaf0]/90 !px-2 !py-0.5 !text-[10px]">new</span>}
+        <div className="relative">
+          <ProductImage tone={p.tone} imageUrl={p.imageUrl} alt={p.name} />
+          {p.stock === 0 ? (
+            <span className="stamp absolute left-2 top-2 bg-[#fffaf0]/90 !px-2 !py-0.5 !text-[10px]">sold out</span>
+          ) : p.isNew && <span className="stamp absolute left-2 top-2 bg-[#fffaf0]/90 !px-2 !py-0.5 !text-[10px]">new</span>}
           {p.comparePriceCents && (
             <span className="stamp absolute right-2 top-2 bg-[#fffaf0]/90 !px-2 !py-0.5 !text-[10px]">sale</span>
           )}

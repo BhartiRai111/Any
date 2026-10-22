@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { money } from "@/lib/format";
+import { ProductImage } from "@/components/product-image";
 import { AddToCart } from "@/components/add-to-cart";
 import { ProductCard } from "@/components/product-card";
 
@@ -16,14 +17,14 @@ export async function generateMetadata({ params }: PageProps<"/product/[slug]">)
 export default async function ProductPage({ params }: PageProps<"/product/[slug]">) {
   const { slug } = await params;
   const p = await db.product.findUnique({ where: { slug }, include: { category: true } });
-  if (!p) notFound();
-  const related = await db.product.findMany({ where: { categoryId: p.categoryId, id: { not: p.id } }, take: 4 });
+  if (!p || !p.active) notFound();
+  const related = await db.product.findMany({ where: { categoryId: p.categoryId, active: true, id: { not: p.id } }, take: 4 });
 
   return (
     <div className="space-y-16">
       <div className="grid gap-10 md:grid-cols-2">
         <div className="polaroid h-fit rotate-[1.5deg] !pb-10">
-          <div className="aspect-square" style={{ background: p.tone }} />
+          <ProductImage tone={p.tone} imageUrl={p.imageUrl} alt={p.name} />
           <p className="mt-3 text-center text-xs">made by hand</p>
         </div>
         <div>
@@ -34,7 +35,9 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
             {money(p.priceCents)}
           </p>
           <p className="mt-5 text-stone-700">{p.description}</p>
-          <div className="mt-8"><AddToCart p={p} /></div>
+          <div className="mt-8">
+            {p.stock === 0 ? <p className="stamp">Sold out</p> : <AddToCart p={p} />}
+          </div>
           <ul className="mt-8 space-y-1 text-sm text-stone-600">
             <li>Ships within 3 working days</li>
             <li>Free shipping over $100</li>

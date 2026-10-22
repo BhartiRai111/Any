@@ -6,7 +6,11 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { createSession, destroySession } from "@/lib/session";
 
-export type FormState = { error?: string } | undefined;
+export type FormState = { error?: string; values?: Record<string, string> } | undefined;
+
+function kept(form: FormData): Record<string, string> {
+  return { name: String(form.get("name") ?? ""), email: String(form.get("email") ?? "") };
+}
 
 const registerSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(80),
@@ -21,9 +25,9 @@ function safeNext(v: FormDataEntryValue | null) {
 
 export async function register(_: FormState, form: FormData): Promise<FormState> {
   const parsed = registerSchema.safeParse(Object.fromEntries(form));
-  if (!parsed.success) return { error: parsed.error.issues[0].message };
+  if (!parsed.success) return { error: parsed.error.issues[0].message, values: kept(form) };
   const { name, email, password } = parsed.data;
-  if (await db.user.findUnique({ where: { email } })) return { error: "An account with that email already exists" };
+  if (await db.user.findUnique({ where: { email } })) return { error: "An account with that email already exists", values: kept(form) };
   const user = await db.user.create({ data: { name, email, passwordHash: await bcrypt.hash(password, 12) } });
   await createSession(user.id);
   redirect(safeNext(form.get("next")));
@@ -34,7 +38,7 @@ export async function login(_: FormState, form: FormData): Promise<FormState> {
   const password = String(form.get("password") ?? "");
   const user = await db.user.findUnique({ where: { email } });
   const ok = user && (await bcrypt.compare(password, user.passwordHash));
-  if (!user || !ok) return { error: "Incorrect email or password" };
+  if (!user || !ok) return { error: "Incorrect email or password", values: kept(form) };
   await createSession(user.id);
   redirect(safeNext(form.get("next")));
 }
