@@ -11,7 +11,7 @@ export const metadata = { title: "Wishlist" };
 export default async function Wishlist() {
   const user = await currentUser();
   if (!user) redirect("/login?next=/wishlist");
-  const rows = await db.wishlistItem.findMany({ where: { userId: user.id, product: { active: true } }, include: { product: true }, orderBy: { createdAt: "desc" } });
+  const rows = await db.wishlistItem.findMany({ where: { userId: user.id, product: { active: true } }, include: { product: { include: { category: true } } }, orderBy: { createdAt: "desc" } });
   const ratings = await getRatings(rows.map((r) => r.productId));
   return (
     <div>

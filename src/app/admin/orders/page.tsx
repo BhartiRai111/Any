@@ -28,7 +28,7 @@ export default async function Orders() {
                   <select name="status" defaultValue={o.status} aria-label={`Status of order ${o.id}`} className="border border-stone-400 bg-white px-2 py-1">
                     {STATUSES.map((s) => <option key={s}>{s}</option>)}
                   </select>
-                  <button className="bg-stone-900 px-3 py-1 text-white">update</button>
+                  <button className="bg-brand px-3 py-1 text-white">update</button>
                 </form>
               </div>
               <p className="mt-2 text-stone-600">{o.name} · {o.email}<br />{o.address}, {o.city} {o.postalCode}, {o.country}</p>

@@ -15,7 +15,7 @@ export function ContactForm() {
       <label className="block text-sm">Message<textarea name="message" required rows={5} defaultValue={state?.values?.message} className={input} /></label>
       <input name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
       {state?.error && <p role="alert" className="text-rose-600">{state.error}</p>}
-      <button disabled={pending} className="bg-stone-900 px-6 py-2.5 text-white disabled:opacity-60">{pending ? "Sending…" : "send message"}</button>
+      <button disabled={pending} className="bg-brand px-6 py-2.5 text-white disabled:opacity-60">{pending ? "Sending…" : "send message"}</button>
     </form>
   );
 }

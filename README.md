@@ -1,11 +1,12 @@
 # Willow & Clay
 
-A paper-and-stamps styled online shop for handmade ceramics and candles. Built with Next.js (App Router), TypeScript, Tailwind CSS, Prisma and PostgreSQL.
+An online shop for handmade ceramics and candles with a clean marketplace layout (white and coral, search bar, category menu, featured and new product rows, FAQ and newsletter). Built with Next.js (App Router), TypeScript, Tailwind CSS, Prisma and PostgreSQL.
 
 ## Features
 
 **Shop**
-- Home page with a polaroid-style hero and the latest pieces
+- Home page with hero, feature strip, featured and new products, promo banners, FAQ and studio notes; footer newsletter signup (emails are saved in the database)
+- Header with search, category menu, "Limited sale", "Best sellers" and "New arrivals" shortcuts
 - Category filter, search and sorting; product pages with glaze and size pickers
 - Shopping bag kept in the browser; prices are in Indian rupees; shipping is free over ₹1,499, otherwise ₹79
 - Sold-out products are marked and cannot be added to the bag

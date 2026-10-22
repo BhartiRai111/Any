@@ -26,7 +26,7 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
   const { slug } = await params;
   const p = await db.product.findUnique({ where: { slug }, include: { category: true } });
   if (!p || !p.active) notFound();
-  const related = await db.product.findMany({ where: { categoryId: p.categoryId, active: true, id: { not: p.id } }, take: 4 });
+  const related = await db.product.findMany({ where: { categoryId: p.categoryId, active: true, id: { not: p.id } }, include: { category: true }, take: 4 });
 
   const user = await currentUser();
   const [reviews, wished, mayReview, relatedRatings] = await Promise.all([
@@ -41,7 +41,7 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
   return (
     <div className="space-y-16">
       <div className="grid gap-10 md:grid-cols-2">
-        <div className="polaroid h-fit rotate-[1.5deg] !pb-10">
+        <div className="polaroid h-fit">
           <ProductImage tone={p.tone} imageUrl={p.imageUrl} alt={p.name} />
           <p className="mt-3 text-center text-xs">made by hand</p>
         </div>

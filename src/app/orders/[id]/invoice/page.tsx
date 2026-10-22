@@ -32,7 +32,7 @@ export default async function Invoice({ params }: PageProps<"/orders/[id]/invoic
         <p>{o.name}<br />{o.address}<br />{o.city} {o.postalCode}, {o.country}<br />{o.email}</p>
       </div>
       <table className="w-full text-left">
-        <thead className="border-b-2 border-stone-900/30 text-xs uppercase"><tr><th className="py-2">Item</th><th>Qty</th><th className="text-right">Price</th><th className="text-right">Amount</th></tr></thead>
+        <thead className="border-b-2 border-stone-300 text-xs uppercase"><tr><th className="py-2">Item</th><th>Qty</th><th className="text-right">Price</th><th className="text-right">Amount</th></tr></thead>
         <tbody>
           {o.items.map((i) => (
             <tr key={i.id} className="border-b border-stone-300">

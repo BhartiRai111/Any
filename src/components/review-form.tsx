@@ -19,7 +19,7 @@ export function ReviewForm({ productId, slug, existing }: { productId: number; s
       <textarea name="body" required rows={3} defaultValue={existing?.body} placeholder="What did you like?" aria-label="Review" className="w-full border border-stone-400 bg-white px-3 py-2" />
       {state?.error && <p role="alert" className="text-rose-600 text-sm">{state.error}</p>}
       {state?.done && <p role="status" className="text-sm">Thanks, your review is saved.</p>}
-      <button disabled={pending} className="bg-stone-900 px-5 py-2 text-white disabled:opacity-60">{pending ? "Saving…" : "save review"}</button>
+      <button disabled={pending} className="bg-brand px-5 py-2 text-white disabled:opacity-60">{pending ? "Saving…" : "save review"}</button>
     </form>
   );
 }

@@ -11,11 +11,11 @@ export default async function Products() {
     <div>
       <div className="flex items-center justify-between">
         <h1 className="font-serif text-4xl italic">Products</h1>
-        <Link href="/admin/products/new" className="bg-stone-900 px-4 py-2 text-white">new product</Link>
+        <Link href="/admin/products/new" className="bg-brand px-4 py-2 text-white">new product</Link>
       </div>
       <div className="mt-5 overflow-x-auto">
         <table className="w-full min-w-[40rem] text-left text-sm">
-          <thead className="border-b-2 border-stone-900/30 text-xs uppercase tracking-wider">
+          <thead className="border-b-2 border-stone-300 text-xs uppercase tracking-wider">
             <tr><th className="py-2">Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th><th /></tr>
           </thead>
           <tbody>

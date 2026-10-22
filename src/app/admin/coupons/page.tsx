@@ -14,7 +14,7 @@ export default async function Coupons() {
       <CouponForm />
       <div className="overflow-x-auto">
         <table className="w-full min-w-[40rem] text-left text-sm">
-          <thead className="border-b-2 border-stone-900/30 text-xs uppercase tracking-wider">
+          <thead className="border-b-2 border-stone-300 text-xs uppercase tracking-wider">
             <tr><th className="py-2">Code</th><th>Discount</th><th>Min order</th><th>Used</th><th>Expires</th><th>Status</th><th /></tr>
           </thead>
           <tbody>

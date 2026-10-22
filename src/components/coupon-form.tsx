@@ -19,7 +19,7 @@ export function CouponForm() {
       <label className="text-sm">Max uses (optional)<input name="maxUses" inputMode="numeric" defaultValue={v("maxUses")} className={input} /></label>
       <label className="text-sm">Expires on (optional)<input name="expiresAt" type="date" defaultValue={v("expiresAt")} className={input} /></label>
       {state?.error && <p role="alert" className="text-sm text-rose-600 sm:col-span-2">{state.error}</p>}
-      <button disabled={pending} className="w-fit bg-stone-900 px-5 py-2 text-white disabled:opacity-60">{pending ? "Saving…" : "create coupon"}</button>
+      <button disabled={pending} className="w-fit bg-brand px-5 py-2 text-white disabled:opacity-60">{pending ? "Saving…" : "create coupon"}</button>
     </form>
   );
 }

@@ -40,7 +40,7 @@ export function ProductForm({ initial, categories }: { initial: Initial; categor
         <label><input type="checkbox" name="isNew" defaultChecked={chk("isNew", initial.isNew)} /> Mark as new</label>
       </div>
       {state?.error && <p role="alert" className="text-rose-600">{state.error}</p>}
-      <button disabled={pending} className="w-fit bg-stone-900 px-6 py-2.5 text-white disabled:opacity-60">{pending ? "Saving…" : "Save product"}</button>
+      <button disabled={pending} className="w-fit bg-brand px-6 py-2.5 text-white disabled:opacity-60">{pending ? "Saving…" : "Save product"}</button>
     </form>
   );
 }

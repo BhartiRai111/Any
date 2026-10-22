@@ -59,7 +59,7 @@ export default async function Dashboard() {
 
       <section>
         <h2 className="mb-3 font-serif text-2xl italic">Revenue, last 14 days</h2>
-        <div className="flex h-40 items-end gap-1 border-b-2 border-stone-900/30" role="img" aria-label="Daily revenue for the last 14 days">
+        <div className="flex h-40 items-end gap-1 border-b-2 border-stone-300" role="img" aria-label="Daily revenue for the last 14 days">
           {days.map((d) => (
             <div key={d.key} className="flex h-full flex-1 flex-col items-center justify-end" title={`${d.label}: ${money(d.total)}`}>
               <div className="w-full bg-[#b4653a]" style={{ height: `${Math.max(2, (d.total / max) * 100)}%` }} />

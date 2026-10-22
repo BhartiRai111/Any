@@ -10,7 +10,7 @@ export function TrackingForm({ orderId, courier, trackingNumber }: { orderId: nu
     <form action={action} className="mt-3 flex flex-wrap items-center gap-2">
       <input name="courier" required defaultValue={courier} placeholder="Courier" aria-label={`Courier for order ${orderId}`} className={input} />
       <input name="trackingNumber" required defaultValue={trackingNumber} placeholder="Tracking number" aria-label={`Tracking number for order ${orderId}`} className={input} />
-      <button disabled={pending} className="bg-stone-900 px-3 py-1 text-white disabled:opacity-60">{courier ? "update tracking" : "mark shipped"}</button>
+      <button disabled={pending} className="bg-brand px-3 py-1 text-white disabled:opacity-60">{courier ? "update tracking" : "mark shipped"}</button>
       {state?.error && <span role="alert" className="text-rose-600">{state.error}</span>}
     </form>
   );

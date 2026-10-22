@@ -7,7 +7,7 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
   if (!user || user.role !== "ADMIN") notFound();
   return (
     <div className="space-y-6">
-      <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 border-b-2 border-stone-900/20 pb-3 text-sm">
+      <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 border-b-2 border-stone-200 pb-3 text-sm">
         <span className="stamp">Studio admin</span>
         <Link href="/admin" className="hover:underline">dashboard</Link>
         <Link href="/admin/products" className="hover:underline">products</Link>

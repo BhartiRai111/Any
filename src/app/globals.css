@@ -1,56 +1,59 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-mono), ui-monospace, monospace;
-  --font-serif: var(--font-cormorant), Georgia, serif;
+  --font-sans: var(--font-montserrat), system-ui, sans-serif;
+  --font-serif: var(--font-montserrat), system-ui, sans-serif;
 
-  /* Willow & Clay: stone scale remapped to warm kraft browns */
-  --color-stone-50: #fbf6ea;
-  --color-stone-100: #f1e8d4;
-  --color-stone-200: #e0d2b4;
-  --color-stone-300: #c9b48d;
-  --color-stone-400: #a38a62;
-  --color-stone-500: #7f6a4a;
-  --color-stone-600: #65533b;
-  --color-stone-700: #4a3c2b;
-  --color-stone-800: #372b1f;
-  --color-stone-900: #2b2118;
-  --color-stone-950: #1c150f;
-  --color-rose-600: #7a2e1b;
-  --color-white: #fffaf0;
+  --color-brand: #f95d44;
+  --color-brand-dark: #e04a31;
+  --color-brand-soft: #fff1ee;
+
+  /* neutral greys used across the shop */
+  --color-stone-50: #fafafa;
+  --color-stone-100: #f4f4f5;
+  --color-stone-200: #e7e7ea;
+  --color-stone-300: #d3d3d8;
+  --color-stone-400: #9d9da5;
+  --color-stone-500: #777780;
+  --color-stone-600: #5a5a63;
+  --color-stone-700: #40404a;
+  --color-stone-800: #2a2a33;
+  --color-stone-900: #1b1b22;
+  --color-stone-950: #101014;
+  --color-rose-600: #d92d20;
 }
 
 body {
   font-family: var(--font-sans);
   font-size: 14px;
-  color: #2b2118;
-  background-color: #d7c4a3;
-  background-image: radial-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px);
-  background-size: 6px 6px;
+  color: #1b1b22;
+  background: #fff;
 }
 
-h1, h2, h3, .font-serif { font-weight: 600; }
+h1, h2, h3, .font-serif { font-weight: 700; letter-spacing: -0.01em; }
+.font-serif.italic { font-style: normal; }
 
-/* polaroid-style photo frame used by product cards and product pages */
+/* product card and photo frame */
 .polaroid {
-  background: #fffaf0;
-  padding: 10px 10px 14px;
-  box-shadow: 0 6px 14px rgba(60, 40, 20, 0.28);
-  transition: transform 0.2s ease;
+  background: #fff;
+  border: 1px solid #e7e7ea;
+  border-radius: 10px;
+  padding: 12px;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
-.polaroid-grid > *:nth-child(odd) .polaroid { transform: rotate(-1deg); }
-.polaroid-grid > *:nth-child(even) .polaroid { transform: rotate(1deg); }
-.polaroid-grid > a:hover .polaroid { transform: rotate(0) translateY(-3px); }
+.polaroid-grid > a:hover .polaroid { box-shadow: 0 8px 24px rgba(27, 27, 34, 0.1); border-color: #d3d3d8; }
+.polaroid img, .polaroid > div { border-radius: 8px; }
 
 .stamp {
   display: inline-block;
-  border: 2px solid #7a2e1b;
-  color: #7a2e1b;
-  padding: 6px 14px;
-  font-size: 12px;
+  background: #fff1ee;
+  color: #e04a31;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  transform: rotate(-2deg);
 }
 
 @media (prefers-reduced-motion: reduce) {

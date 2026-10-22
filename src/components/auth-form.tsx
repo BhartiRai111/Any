@@ -33,7 +33,7 @@ export function AuthForm({
       </label>
       {mode === "login" && <p className="text-sm"><Link className="underline" href="/forgot-password">Forgot password?</Link></p>}
       {state?.error && <p role="alert" className="text-sm text-rose-600">{state.error}</p>}
-      <button disabled={pending} className="w-full rounded-md bg-stone-900 py-2.5 text-white disabled:opacity-60">
+      <button disabled={pending} className="w-full rounded-md bg-brand py-2.5 text-white disabled:opacity-60">
         {pending ? "Please wait…" : mode === "login" ? "Sign in" : "Create account"}
       </button>
       <p className="text-sm text-stone-600">

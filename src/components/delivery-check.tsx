@@ -18,7 +18,7 @@ export function DeliveryCheck() {
         }}
       >
         <input value={pin} onChange={(e) => setPin(e.target.value)} inputMode="numeric" maxLength={6} placeholder="PIN code" aria-label="PIN code" className="w-32 border border-stone-400 bg-white px-3 py-1.5" />
-        <button disabled={pending} className="border-2 border-stone-900 px-3 py-1.5 hover:bg-stone-900 hover:text-white disabled:opacity-60">check</button>
+        <button disabled={pending} className="border-2 border-brand text-brand px-3 py-1.5 hover:bg-brand hover:text-white disabled:opacity-60">check</button>
       </form>
       {result && <p role="status" className={`mt-2 ${result.ok ? "" : "text-rose-600"}`}>{result.message}</p>}
     </div>

@@ -25,7 +25,7 @@ export default async function Success({ searchParams }: PageProps<"/checkout/suc
           <p className="mt-2">Reference: order {id}. We ship once the payment arrives.</p>
         </div>
       )}
-      <Link href="/shop" className="mt-8 inline-block rounded-sm bg-stone-900 px-8 py-3 text-white">Keep shopping</Link>
+      <Link href="/shop" className="mt-8 inline-block rounded-sm bg-brand px-8 py-3 text-white">Keep shopping</Link>
     </div>
   );
 }

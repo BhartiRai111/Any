@@ -152,7 +152,7 @@ export function CheckoutForm({ defaults, bankAvailable, onlineAvailable, address
         <div className="mt-3">
           <div className="flex gap-2">
             <input name="coupon" value={code} onChange={(e) => { setCode(e.target.value); setCoupon(null); }} placeholder="Discount code" aria-label="Discount code" className="w-full border border-stone-400 bg-white px-3 py-1.5 uppercase" />
-            <button type="button" disabled={checking || !code.trim()} className="border-2 border-stone-900 px-3 hover:bg-stone-900 hover:text-white disabled:opacity-50"
+            <button type="button" disabled={checking || !code.trim()} className="border-2 border-brand text-brand px-3 hover:bg-brand hover:text-white disabled:opacity-50"
               onClick={async () => { setChecking(true); setCoupon(await previewCoupon(code, lines.map((l) => ({ productId: l.productId, quantity: l.quantity })))); setChecking(false); }}>apply</button>
           </div>
           {coupon && <p role="status" className={`mt-1 text-xs ${coupon.ok ? "" : "text-rose-600"}`}>{coupon.message}</p>}
@@ -164,7 +164,7 @@ export function CheckoutForm({ defaults, bankAvailable, onlineAvailable, address
         </div>
         {state?.error && <p role="alert" className="mt-3 text-rose-600">{state.error}</p>}
         {payMessage && <p role="status" className="mt-3">{payMessage}</p>}
-        <button disabled={pending} className="mt-5 w-full rounded-sm bg-stone-900 py-3 text-white disabled:opacity-60">
+        <button disabled={pending} className="mt-5 w-full rounded-sm bg-brand py-3 text-white disabled:opacity-60">
           {pending ? "Placing order…" : "Place order"}
         </button>
       </aside>

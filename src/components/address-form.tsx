@@ -19,7 +19,7 @@ export function AddressForm() {
       </div>
       <label className="text-sm">Country<input name="country" required defaultValue={v("country", "India")} className={input} autoComplete="country-name" /></label>
       {state?.error && <p role="alert" className="text-sm text-rose-600">{state.error}</p>}
-      <button disabled={pending} className="w-fit bg-stone-900 px-5 py-2 text-white disabled:opacity-60">{pending ? "Saving…" : "save address"}</button>
+      <button disabled={pending} className="w-fit bg-brand px-5 py-2 text-white disabled:opacity-60">{pending ? "Saving…" : "save address"}</button>
     </form>
   );
 }
